@@ -71,11 +71,13 @@ const styles = StyleSheet.create({
     rowGap: 4,
   },
   title: {
-    fontSize: 16,
+    fontFamily: 'RNS Sanz',
+    fontSize: 18,
     fontWeight: 'bold',
   },
   description: {
-    fontSize: 14,
+    fontFamily: 'RNS Sanz',
+    fontSize: 16,
   },
   spacer: {
     flex: 1,

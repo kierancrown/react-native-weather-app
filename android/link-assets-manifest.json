@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/RNSSanz-Black.ttf",
+      "sha1": "db928edb49630a4092963469c9219a4266446d76"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-Bold.ttf",
+      "sha1": "55a6e8f09e09464e5432e137c027fd7a58d2f7aa"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-ExtraBold.ttf",
+      "sha1": "531a107f26afff01c5dc49e4dc6f59661da72463"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-Light.ttf",
+      "sha1": "15df990a24463a79bb9f183f8c231d2ab22e0ab2"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-Medium.ttf",
+      "sha1": "ca379298b2e12cf2b06d8efad99913ccf2efa10f"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-Normal.ttf",
+      "sha1": "1dd2d8aa3cba859776e966bb45dc854e25837474"
+    },
+    {
+      "path": "assets/fonts/RNSSanz-SemiBold.ttf",
+      "sha1": "073bf4ed5e427bf8de671c09238307a9ddae8223"
+    }
+  ]
+}

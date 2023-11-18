@@ -107,6 +107,8 @@ const Button = ({
       : disabled
       ? 'gray'
       : color,
+    fontFamily: 'RNS Sanz',
+    fontWeight: '600',
     fontSize: size === 'small' ? 14 : size === 'large' ? 22 : 18,
     ...textStyle,
   };

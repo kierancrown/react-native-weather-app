@@ -66,11 +66,13 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   title: {
+    fontFamily: 'RNS Sanz',
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   subtitle: {
+    fontFamily: 'RNS Sanz',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   buttonText: {
+    fontFamily: 'RNS Sanz',
     fontWeight: 'bold',
     fontSize: 18,
   },
