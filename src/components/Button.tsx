@@ -6,8 +6,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import React, {ReactElement} from 'react';
-import {triggerHaptic, HapticFeedbackTypes} from '../../utils/haptics';
-import {useTheme, useThemeStyles} from '../../hooks/useTheme';
+import {triggerHaptic, HapticFeedbackTypes} from '../utils/haptics';
+import {useTheme, useThemeStyles} from '../hooks/useTheme';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

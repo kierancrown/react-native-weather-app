@@ -12,19 +12,25 @@ import {
 } from 'redux-persist';
 
 import onboardingSlice from './slices/onboardingSlice';
+import unitsSlice from './slices/unitsSlice';
 
 const persistConfig = {
   key: 'persisted',
   storage: AsyncStorage,
-  whitelist: ['onboarding'],
+  whitelist: ['onboarding', 'units'],
 };
 
 const reducers = combineReducers({
   onboarding: onboardingSlice,
+  units: unitsSlice,
+});
+
+const rootReducer = combineReducers({
+  persistent: persistReducer(persistConfig, reducers),
 });
 
 export const store = configureStore({
-  reducer: persistReducer(persistConfig, reducers),
+  reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production',
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

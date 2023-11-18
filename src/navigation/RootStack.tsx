@@ -11,7 +11,7 @@ import OnboardingStack from './OnboardingStack';
 const RootStack = () => {
   const themeStyles = useThemeStyles();
   const onboardingComplete = useSelector(
-    (state: RootState) => state.onboarding.onboardingComplete,
+    (state: RootState) => state.persistent.onboarding.onboarded,
   );
 
   return (

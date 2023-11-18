@@ -1,25 +1,44 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Alert} from 'react-native';
-import Button from '../../components/common/Button';
+import Button from '../../components/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useThemeStyles} from '../../hooks/useTheme';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {OnboardingStackNavigationProp} from '../../navigation/OnboardingStack';
-import {HapticFeedbackTypes} from 'react-native-haptic-feedback';
+import {HapticFeedbackTypes} from '../../utils/haptics';
+import RNLocation from 'react-native-location';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+RNLocation.configure({
+  distanceFilter: 5.0,
+});
 
 const LocationAccessScreen = () => {
   const themeStyles = useThemeStyles();
   const {navigate} = useNavigation<OnboardingStackNavigationProp>();
 
-  const handleLocationRequest = () => {
-    Alert.alert('Request Location Access');
+  const handleLocationRequest = async () => {
+    try {
+      await RNLocation.requestPermission({
+        ios: 'whenInUse',
+        android: {
+          detail: 'coarse',
+        },
+      });
+
+      navigate('Units');
+    } catch (error) {
+      Alert.alert(
+        'Error requesting location access',
+        'Please try again later.',
+        [{text: 'OK'}],
+      );
+    }
   };
 
   const skipRequest = () => {
-    navigate('LocationAccess');
+    navigate('Units');
   };
 
   return (

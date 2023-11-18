@@ -1,15 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface SettingsState {
+export interface OnboardingState {
   onboarded: boolean;
 }
 
-const initialState: SettingsState = {
+const initialState: OnboardingState = {
   onboarded: false,
 };
 
-export const settingsSlice = createSlice({
-  name: 'settings',
+export const onboardingSlice = createSlice({
+  name: 'onboarding',
   initialState,
   reducers: {
     completeOnboarding: state => {
@@ -21,6 +21,6 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const {completeOnboarding, resetSettings} = settingsSlice.actions;
+export const {completeOnboarding, resetSettings} = onboardingSlice.actions;
 
-export default settingsSlice.reducer;
+export default onboardingSlice.reducer;

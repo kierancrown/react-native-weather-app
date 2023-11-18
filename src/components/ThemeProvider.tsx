@@ -1,4 +1,5 @@
-import React, {createContext, useReducer, Context} from 'react';
+import React, {createContext, useReducer, Context, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import colors from '../constants/colors';
 
 export enum ACTIONS {
@@ -85,6 +86,10 @@ const ThemeProviderContext = ({children}: ContextProps) => {
     ): ThemeProviderTypes => {
       switch (action.type) {
         case ACTIONS.CHANGE_THEME:
+          if (action.value.mode) {
+            AsyncStorage.setItem('theme_mode', action.value.mode);
+          }
+
           return {
             ...innerState,
             theme: {...innerState.theme, ...action.value},
@@ -95,6 +100,21 @@ const ThemeProviderContext = ({children}: ContextProps) => {
     },
     initialData,
   );
+
+  useEffect(() => {
+    const getSavedTheme = async () => {
+      const mode = await AsyncStorage.getItem('theme_mode');
+      if (mode) {
+        dispatch({
+          type: ACTIONS.CHANGE_THEME,
+          value: {
+            mode: mode as 'system' | 'light' | 'dark',
+          },
+        });
+      }
+    };
+    getSavedTheme();
+  }, [dispatch]);
 
   return (
     <ThemeProvider.Provider value={{...state, dispatch}}>
