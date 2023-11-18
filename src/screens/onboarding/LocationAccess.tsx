@@ -31,9 +31,7 @@ const LocationAccessScreen = () => {
           source={require('../../assets/cityscape.png')}
         />
       </View>
-      <Text style={[styles.title, themeStyles.text]}>
-        Location Access Required
-      </Text>
+      <Text style={[styles.title, themeStyles.text]}>Where are you?</Text>
       <Text style={[styles.subtitle, themeStyles.text]}>
         We need your location to provide you with the most accurate weather
         information.
