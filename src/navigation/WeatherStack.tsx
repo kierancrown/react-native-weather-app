@@ -3,8 +3,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import ExampleScreen from '../screens/Example';
 import AddLocationScreen from '../screens/AddLocation';
+import ForecastScreen from '../screens/Forecast';
 
 export type WeatherStackNavigationProp =
   NativeStackNavigationProp<WeatherStackParamList>;
@@ -21,7 +21,7 @@ const WeatherStack = () => {
     <Stack.Navigator
       initialRouteName="Example"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Example" component={ExampleScreen} />
+      <Stack.Screen name="Example" component={ForecastScreen} />
       <Stack.Screen
         name="AddLocation"
         component={AddLocationScreen}

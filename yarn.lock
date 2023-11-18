@@ -1548,6 +1548,11 @@
   dependencies:
     merge-options "^3.0.4"
 
+"@react-native-community/blur@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/blur/-/blur-4.3.2.tgz#185a2c7dd03ba168cc95069bc4742e9505fd6c6c"
+  integrity sha512-0ID+pyZKdC4RdgC7HePxUQ6JmsbNrgz03u+6SgqYpmBoK/rE+7JffqIw7IEsfoKitLEcRNLGekIBsfwCqiEkew==
+
 "@react-native-community/cli-clean@11.3.10":
   version "11.3.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-clean/-/cli-clean-11.3.10.tgz#70d14dd998ce8ad532266b36a0e5cafe22d300ac"
@@ -6060,6 +6065,11 @@ react-native-haptic-feedback@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-haptic-feedback/-/react-native-haptic-feedback-2.2.0.tgz#bc46edd1f053265bfbe6c32487cbce074e099429"
   integrity sha512-3tqJOjCguWhIrX0nkURn4yw6kXdsSDjjrvZCRjKXYGlL28hdQmoW2okAHduDTD9FWj9lA+lHgwFWgGs4aFNN7A==
+
+react-native-linear-gradient@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
+  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-location@^2.5.0:
   version "2.5.0"
