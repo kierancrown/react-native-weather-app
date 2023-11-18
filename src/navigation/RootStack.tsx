@@ -4,9 +4,15 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 import WeatherStack from './WeatherStack';
 import {useThemeStyles} from '../hooks/useTheme';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
+import OnboardingStack from './OnboardingStack';
 
 const RootStack = () => {
   const themeStyles = useThemeStyles();
+  const onboardingComplete = useSelector(
+    (state: RootState) => state.onboarding.onboardingComplete,
+  );
 
   return (
     <SafeAreaProvider>
@@ -20,7 +26,7 @@ const RootStack = () => {
             text: themeStyles.text.color,
           },
         }}>
-        {false ? <WeatherStack /> : <WeatherStack />}
+        {onboardingComplete ? <WeatherStack /> : <OnboardingStack />}
       </NavigationContainer>
     </SafeAreaProvider>
   );
