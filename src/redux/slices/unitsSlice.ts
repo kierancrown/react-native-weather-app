@@ -40,7 +40,7 @@ export const unitsSlice = createSlice({
     ) => {
       state.distanceUnit = action.payload;
     },
-    resetSettings: state => {
+    resetUnits: state => {
       state.distanceUnit = initialState.distanceUnit;
       state.speedUnit = initialState.speedUnit;
       state.tempUnit = initialState.tempUnit;
@@ -48,7 +48,7 @@ export const unitsSlice = createSlice({
   },
 });
 
-export const {setTempUnit, setSpeedUnit, setDistanceUnit, resetSettings} =
+export const {setTempUnit, setSpeedUnit, setDistanceUnit, resetUnits} =
   unitsSlice.actions;
 
 export default unitsSlice.reducer;

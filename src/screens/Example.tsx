@@ -1,22 +1,29 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Switch} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {useThemeStyles, useTheme} from '../hooks/useTheme';
+import Button from '../components/Button';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../redux/store';
+import {resetSettings} from '../redux/slices/onboardingSlice';
+import {resetUnits} from '../redux/slices/unitsSlice';
 
 const ExampleScreen: FC = () => {
+  const [, updateTheme] = useTheme();
   const style = useThemeStyles();
-  const [theme, updateTheme] = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const reset = () => {
+    updateTheme({
+      mode: 'system',
+    });
+    dispatch(resetUnits());
+    dispatch(resetSettings());
+  };
 
   return (
     <View style={styles.container}>
       <Text style={[styles.text, style.text]}>Hello World</Text>
-      <Switch
-        value={theme.mode === 'dark'}
-        onChange={() =>
-          updateTheme({
-            mode: theme.mode === 'dark' ? 'light' : 'dark',
-          })
-        }
-      />
+      <Button title="RESET EVERYTING" color="red" onPress={reset} />
     </View>
   );
 };
