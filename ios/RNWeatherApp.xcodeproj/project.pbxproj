@@ -9,16 +9,16 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* RNWeatherAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* RNWeatherAppTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-RNWeatherApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-RNWeatherApp.a */; };
+		122E2C0788E64C6388F211E4 /* RNSSanz-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 843709E883004645B9ED7C2A /* RNSSanz-Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		283FEB01D34742AFB121C7D4 /* RNSSanz-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80D02F4BDD0842189B061146 /* RNSSanz-Light.ttf */; };
+		2E39BA57416F4DF59F3FA332 /* RNSSanz-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D0060FACC064B8DB9101B64 /* RNSSanz-Bold.ttf */; };
+		32C49700C07C46F380878754 /* RNSSanz-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1570697A37A14AD99778ADED /* RNSSanz-ExtraBold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-RNWeatherApp-RNWeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-RNWeatherApp-RNWeatherAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A54D683FD9674A0D947346A6 /* RNSSanz-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F863C4920AEF48CEA262B3D7 /* RNSSanz-Black.ttf */; };
-		2E39BA57416F4DF59F3FA332 /* RNSSanz-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D0060FACC064B8DB9101B64 /* RNSSanz-Bold.ttf */; };
-		32C49700C07C46F380878754 /* RNSSanz-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1570697A37A14AD99778ADED /* RNSSanz-ExtraBold.ttf */; };
-		283FEB01D34742AFB121C7D4 /* RNSSanz-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80D02F4BDD0842189B061146 /* RNSSanz-Light.ttf */; };
-		122E2C0788E64C6388F211E4 /* RNSSanz-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 843709E883004645B9ED7C2A /* RNSSanz-Medium.ttf */; };
 		C35957AAF6D74951B4E18C10 /* RNSSanz-Normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A69DF03B02AF450399DF0EDA /* RNSSanz-Normal.ttf */; };
 		C3D7DC8FB42D4A10A4E11983 /* RNSSanz-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B0CFB5351EA4C03932B9E0B /* RNSSanz-SemiBold.ttf */; };
 /* End PBXBuildFile section */
@@ -43,21 +43,21 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RNWeatherApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNWeatherApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNWeatherApp/main.m; sourceTree = "<group>"; };
+		1570697A37A14AD99778ADED /* RNSSanz-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-ExtraBold.ttf"; path = "../assets/fonts/RNSSanz-ExtraBold.ttf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-RNWeatherApp-RNWeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNWeatherApp-RNWeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B0CFB5351EA4C03932B9E0B /* RNSSanz-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-SemiBold.ttf"; path = "../assets/fonts/RNSSanz-SemiBold.ttf"; sourceTree = "<group>"; };
+		2D0060FACC064B8DB9101B64 /* RNSSanz-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-Bold.ttf"; path = "../assets/fonts/RNSSanz-Bold.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-RNWeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWeatherApp.debug.xcconfig"; path = "Target Support Files/Pods-RNWeatherApp/Pods-RNWeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-RNWeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWeatherApp.release.xcconfig"; path = "Target Support Files/Pods-RNWeatherApp/Pods-RNWeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-RNWeatherApp-RNWeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWeatherApp-RNWeatherAppTests.debug.xcconfig"; path = "Target Support Files/Pods-RNWeatherApp-RNWeatherAppTests/Pods-RNWeatherApp-RNWeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-RNWeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNWeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		80D02F4BDD0842189B061146 /* RNSSanz-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-Light.ttf"; path = "../assets/fonts/RNSSanz-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RNWeatherApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		843709E883004645B9ED7C2A /* RNSSanz-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-Medium.ttf"; path = "../assets/fonts/RNSSanz-Medium.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RNWeatherApp-RNWeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWeatherApp-RNWeatherAppTests.release.xcconfig"; path = "Target Support Files/Pods-RNWeatherApp-RNWeatherAppTests/Pods-RNWeatherApp-RNWeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		A69DF03B02AF450399DF0EDA /* RNSSanz-Normal.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-Normal.ttf"; path = "../assets/fonts/RNSSanz-Normal.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F863C4920AEF48CEA262B3D7 /* RNSSanz-Black.ttf */ = {isa = PBXFileReference; name = "RNSSanz-Black.ttf"; path = "../assets/fonts/RNSSanz-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2D0060FACC064B8DB9101B64 /* RNSSanz-Bold.ttf */ = {isa = PBXFileReference; name = "RNSSanz-Bold.ttf"; path = "../assets/fonts/RNSSanz-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1570697A37A14AD99778ADED /* RNSSanz-ExtraBold.ttf */ = {isa = PBXFileReference; name = "RNSSanz-ExtraBold.ttf"; path = "../assets/fonts/RNSSanz-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		80D02F4BDD0842189B061146 /* RNSSanz-Light.ttf */ = {isa = PBXFileReference; name = "RNSSanz-Light.ttf"; path = "../assets/fonts/RNSSanz-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		843709E883004645B9ED7C2A /* RNSSanz-Medium.ttf */ = {isa = PBXFileReference; name = "RNSSanz-Medium.ttf"; path = "../assets/fonts/RNSSanz-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A69DF03B02AF450399DF0EDA /* RNSSanz-Normal.ttf */ = {isa = PBXFileReference; name = "RNSSanz-Normal.ttf"; path = "../assets/fonts/RNSSanz-Normal.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2B0CFB5351EA4C03932B9E0B /* RNSSanz-SemiBold.ttf */ = {isa = PBXFileReference; name = "RNSSanz-SemiBold.ttf"; path = "../assets/fonts/RNSSanz-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F863C4920AEF48CEA262B3D7 /* RNSSanz-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RNSSanz-Black.ttf"; path = "../assets/fonts/RNSSanz-Black.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +164,7 @@
 			sourceTree = "<group>";
 		};
 		BEF89EF34D604346836644F5 /* Resources */ = {
-			isa = "PBXGroup";
+			isa = PBXGroup;
 			children = (
 				F863C4920AEF48CEA262B3D7 /* RNSSanz-Black.ttf */,
 				2D0060FACC064B8DB9101B64 /* RNSSanz-Bold.ttf */,
@@ -176,7 +176,6 @@
 			);
 			name = Resources;
 			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -523,8 +522,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 44YT93HHZS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RNWeatherApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -550,7 +551,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 44YT93HHZS;
 				INFOPLIST_FILE = RNWeatherApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

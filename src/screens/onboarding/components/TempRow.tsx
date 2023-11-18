@@ -39,7 +39,7 @@ const TempRow: FC = () => {
       </View>
       <View style={styles.spacer} />
       <Button
-        title={tempUnit === 'C' ? 'Cº' : 'Fº'}
+        title={tempUnit === 'C' ? 'C°' : 'F°'}
         fill
         color={themeStyles.text.color}
         buttonStyle={styles.button}
