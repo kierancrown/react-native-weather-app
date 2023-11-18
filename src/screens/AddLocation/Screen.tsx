@@ -1,15 +1,13 @@
 import React, {FC, useState} from 'react';
-import {View, StyleSheet, Pressable, Text} from 'react-native';
-import {useThemeStyles} from '../../hooks/useTheme';
+import {View, StyleSheet} from 'react-native';
 
 import {useAutoComplete} from '../../hooks/useWeatherApi';
 import {FlashList} from '@shopify/flash-list';
 import SearchInput from './components/SearchInput';
 import EmptyView from './components/EmptyView';
+import LocationListItem from './components/LocationListItem';
 
 const AddLocationScreen: FC = () => {
-  const themeStyles = useThemeStyles();
-
   const [query, setQuery] = useState<string>('');
   const results = useAutoComplete(query);
 
@@ -24,12 +22,7 @@ const AddLocationScreen: FC = () => {
         data={results}
         estimatedItemSize={100}
         renderItem={({item}) => (
-          <Pressable
-            onPress={() => {
-              console.log('pressed');
-            }}>
-            <Text style={themeStyles.text}>{item.name}</Text>
-          </Pressable>
+          <LocationListItem item={item} onPress={() => {}} />
         )}
         keyExtractor={item => item.id.toString()}
       />
