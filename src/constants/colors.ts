@@ -14,8 +14,12 @@ export default {
     light: '#f1f5f9',
   },
   text: {
-    light: '#F3F3F3',
-    dark: '#222222',
+    light: '#222222',
+    dark: '#F3F3F3',
+  },
+  secondaryText: {
+    light: '#919191',
+    dark: '#bdbdbd',
   },
   divider: {
     light: '#D3D3D3',
