@@ -7,19 +7,27 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './redux/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ThemeProviderContext from './components/ThemeProvider';
+import {SheetProvider} from 'react-native-actions-sheet';
+
+import './components/sheets';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const gestureStyle = {flex: 1};
 
 const App: FC = () => {
   return (
     <GestureHandlerRootView style={gestureStyle}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <ThemeProviderContext>
-            <RootStack />
-          </ThemeProviderContext>
-        </PersistGate>
-      </Provider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ThemeProviderContext>
+              <SheetProvider>
+                <RootStack />
+              </SheetProvider>
+            </ThemeProviderContext>
+          </PersistGate>
+        </Provider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 };

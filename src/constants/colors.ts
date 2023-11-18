@@ -25,4 +25,8 @@ export default {
     light: '#D3D3D3',
     dark: '#334155',
   },
+  placeholder: {
+    dark: '#C0C0C0',
+    light: '#818589',
+  },
 };

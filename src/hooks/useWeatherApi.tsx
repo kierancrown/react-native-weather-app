@@ -1,15 +1,20 @@
 import {useEffect, useState} from 'react';
 import {API_KEY, API_URL, API_HOST} from '@env';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 
 const useAutoComplete = (query: string) => {
   const [results, setResults] = useState<AutoCompleteResult[]>([]);
 
   useEffect(() => {
+    if (!query || query.length < 3) {
+      setResults([]);
+      return;
+    }
+
     const performRequest = async () => {
       const options = {
         method: 'GET',
-        url: `${API_URL}search.json`,
+        url: `${API_URL}/search.json`,
         params: {q: query},
         headers: {
           'X-RapidAPI-Key': API_KEY,
@@ -20,8 +25,9 @@ const useAutoComplete = (query: string) => {
       try {
         const response = await axios.request<AutoCompleteResult[]>(options);
         setResults(response.data);
-      } catch (error) {
+      } catch (e) {
         // Would normally log to an error to Sentry or similar
+        const error = e as AxiosError;
         console.error(error);
         setResults([]);
       }

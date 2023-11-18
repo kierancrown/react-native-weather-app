@@ -1,12 +1,12 @@
 import {useContext} from 'react';
 import {useColorScheme, StyleSheet} from 'react-native';
-import {ThemeProvider, ACTIONS, ThemeProps} from '../components/ThemeProvider';
+import {ThemeProvider, ACTIONS, IThemeProps} from '../components/ThemeProvider';
 import colors from '../constants/colors';
 
 const useTheme = () => {
   const {dispatch, theme} = useContext(ThemeProvider);
 
-  const updateTheme = (newTheme: Partial<ThemeProps>) => {
+  const updateTheme = (newTheme: Partial<IThemeProps>) => {
     dispatch({
       type: ACTIONS.CHANGE_THEME,
       value: newTheme,
@@ -56,6 +56,12 @@ const useThemeStyles = () => {
       borderBottomColor:
         colorScheme === 'dark' ? colors.divider.dark : colors.divider.light,
       borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+    placeholderText: {
+      color:
+        colorScheme === 'dark'
+          ? colors.placeholder.dark
+          : colors.placeholder.light,
     },
   });
 
