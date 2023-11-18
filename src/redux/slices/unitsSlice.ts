@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface UnitsState {
+export interface IUnitsState {
   tempUnit: 'C' | 'F';
   speedUnit: 'km/h' | 'mph';
   distanceUnit: 'km' | 'mi';
 }
 
-const initialState: UnitsState = {
+const initialState: IUnitsState = {
   tempUnit: 'C',
   speedUnit: 'mph',
   distanceUnit: 'mi',

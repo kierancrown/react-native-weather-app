@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface OnboardingState {
+export interface IOnboardingState {
   onboarded: boolean;
 }
 
-const initialState: OnboardingState = {
+const initialState: IOnboardingState = {
   onboarded: false,
 };
 

@@ -6,7 +6,7 @@ export enum ACTIONS {
   CHANGE_THEME,
 }
 
-const initialData: ThemeProviderTypes = {
+const initialData: IThemeProviderTypes = {
   dispatch: () => {},
   theme: {
     primary: colors.primary,
@@ -35,11 +35,11 @@ const initialData: ThemeProviderTypes = {
   },
 };
 
-export const ThemeProvider: Context<ThemeProviderTypes> =
+export const ThemeProvider: Context<IThemeProviderTypes> =
   createContext(initialData);
 ThemeProvider.displayName = 'Theme Provider';
 
-export interface ThemeProps {
+export interface IThemeProps {
   primary: string;
   secondary: string;
   text: {
@@ -64,26 +64,26 @@ export interface ThemeProps {
   };
   mode: 'system' | 'light' | 'dark';
 }
-interface ThemeProviderTypes {
-  dispatch: React.Dispatch<DispatchAction>;
-  theme: ThemeProps;
+interface IThemeProviderTypes {
+  dispatch: React.Dispatch<IDispatchAction>;
+  theme: IThemeProps;
 }
 
-interface ContextProps {
+interface IContextProps {
   children?: JSX.Element | JSX.Element[];
 }
 
-export interface DispatchAction {
+export interface IDispatchAction {
   type: ACTIONS;
-  value: Partial<ThemeProps>;
+  value: Partial<IThemeProps>;
 }
 
-const ThemeProviderContext = ({children}: ContextProps) => {
+const ThemeProviderContext = ({children}: IContextProps) => {
   const [state, dispatch] = useReducer(
     (
-      innerState: ThemeProviderTypes,
-      action: DispatchAction,
-    ): ThemeProviderTypes => {
+      innerState: IThemeProviderTypes,
+      action: IDispatchAction,
+    ): IThemeProviderTypes => {
       switch (action.type) {
         case ACTIONS.CHANGE_THEME:
           if (action.value.mode) {

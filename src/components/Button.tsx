@@ -14,7 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-interface ButtonProps {
+interface IButtonProps {
   testID?: string;
   title: string;
   color?: string;
@@ -54,7 +54,7 @@ const Button = ({
   outline = false,
   onPress,
   onLongPress,
-}: ButtonProps) => {
+}: IButtonProps) => {
   const [theme] = useTheme();
   const color = colorProp || theme.primary;
   const themeAwareStyles = useThemeStyles();
@@ -122,18 +122,14 @@ const Button = ({
     if (haptics) {
       triggerHaptic(haptics);
     }
-    if (onPress) {
-      onPress();
-    }
+    onPress?.();
   };
 
   const internalOnLongPress = () => {
     if (haptics) {
       triggerHaptic(haptics);
     }
-    if (onLongPress) {
-      onLongPress();
-    }
+    onLongPress?.();
   };
 
   const onPressDown = () => {
