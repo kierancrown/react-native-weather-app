@@ -16,7 +16,9 @@ const useTheme = () => {
 };
 
 const useThemeStyles = () => {
-  const colorScheme = useColorScheme();
+  const [theme] = useTheme();
+  const systemColorScheme = useColorScheme();
+  const colorScheme = theme.mode === 'system' ? systemColorScheme : theme.mode;
   const themeStyles = StyleSheet.create({
     primaryText: {
       color: colors.primary,
