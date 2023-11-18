@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {useColorScheme, StyleSheet, StyleSheetProperties} from 'react-native';
+import {useColorScheme, StyleSheet} from 'react-native';
 import {ThemeProvider, ACTIONS, ThemeProps} from '../components/ThemeProvider';
 import colors from '../constants/colors';
 
@@ -15,7 +15,7 @@ const useTheme = () => {
   return [theme, updateTheme] as const;
 };
 
-const useThemeStyles = (stylesheet?: StyleSheetProperties) => {
+const useThemeStyles = () => {
   const colorScheme = useColorScheme();
   const themeStyles = StyleSheet.create({
     primaryText: {
@@ -57,7 +57,7 @@ const useThemeStyles = (stylesheet?: StyleSheetProperties) => {
     },
   });
 
-  return StyleSheet.flatten([themeStyles, stylesheet]);
+  return themeStyles;
 };
 
 export {useThemeStyles, useTheme};

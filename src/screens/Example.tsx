@@ -1,10 +1,13 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useThemeStyles} from '../hooks/useTheme';
 
 const ExampleScreen: FC = () => {
+  const style = useThemeStyles();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hello World</Text>
+      <Text style={[styles.text, style.text]}>Hello World</Text>
     </View>
   );
 };
