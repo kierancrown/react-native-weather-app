@@ -5,14 +5,19 @@ import RootStack from './navigation/RootStack';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './redux/store';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
+const gestureStyle = {flex: 1};
 
 const App: FC = () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RootStack />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={gestureStyle}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <RootStack />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 
