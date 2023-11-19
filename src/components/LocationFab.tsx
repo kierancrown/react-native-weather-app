@@ -1,14 +1,19 @@
-import React, {FC, useRef} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
+  Alert,
   Dimensions,
   Keyboard,
   Pressable,
   StyleSheet,
+  Text,
   TextInput,
+  View,
 } from 'react-native';
 import LocationIcon from '../assets/location-dot-outline.svg';
 import {BlurView} from '@react-native-community/blur';
 import Animated, {
+  SharedValue,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -17,6 +22,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThemeStyles} from '../hooks/useTheme';
+import {useAutoComplete} from '../hooks/useWeatherApi';
+
+import SearchIcon from '../assets/search.svg';
 
 interface ILocationFabProps {
   currentLocation: string;
@@ -28,8 +36,8 @@ const HEIGHT = 40;
 
 //#region Animation Hook
 const useLocationFabAnimation = (
-  openState: Animated.SharedValue<number>,
-  keyboardHeight: Animated.SharedValue<number>,
+  openState: SharedValue<number>,
+  keyboardHeight: SharedValue<number>,
   themeStyles: any, // Replace 'any' with your theme styles type
 ) => {
   const insets = useSafeAreaInsets();
@@ -104,6 +112,10 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
   const openState = useSharedValue(0);
   const keyboardHeight = useSharedValue(0);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const {results, loading} = useAutoComplete(query);
+
   Keyboard.addListener('keyboardWillShow', e => {
     keyboardHeight.value = e.endCoordinates.height;
   });
@@ -134,28 +146,74 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
             <LocationIcon width={18} height={18} fill="#ffffff" />
           </Animated.View>
           <Animated.Text style={[styles.text, openStateAnimatedTextStyles]}>
-            {currentLocation}
+            {isOpen ? 'Add new location' : currentLocation}
           </Animated.Text>
         </Animated.View>
 
         {/* Pulled down state */}
-        <Pressable style={styles.openContainer}>
+        <Pressable style={[styles.openContainer, !isOpen && styles.hide]}>
           <Animated.View style={[openInputAnimatedStyles]}>
-            <TextInput
+            <Pressable
               style={[styles.openInput, themeStyles.input]}
-              placeholder="Search for a location"
-              returnKeyLabel="Search"
-              returnKeyType="search"
-              ref={inputRef}
-              onFocus={() => {
-                openState.value = withTiming(1);
-              }}
-              onBlur={() => {
-                openState.value = withTiming(0, {
-                  duration: 200,
-                });
-              }}
-            />
+              onPress={handlePress}>
+              {loading ? (
+                <View style={styles.loadingIndicatorContainer}>
+                  <ActivityIndicator
+                    size="small"
+                    color={themeStyles.placeholderText.color}
+                  />
+                </View>
+              ) : (
+                <SearchIcon
+                  width={18}
+                  height={18}
+                  fill={themeStyles.placeholderText.color}
+                />
+              )}
+              <TextInput
+                style={[styles.openTextInput]}
+                placeholder="Search for a location"
+                returnKeyLabel="Close"
+                returnKeyType="done"
+                ref={inputRef}
+                value={query}
+                onChangeText={setQuery}
+                onFocus={() => {
+                  setIsOpen(true);
+                  openState.value = withTiming(1);
+                }}
+                onBlur={() => {
+                  setIsOpen(false);
+                  openState.value = withTiming(0, {
+                    duration: 200,
+                  });
+                }}
+              />
+            </Pressable>
+
+            <View style={styles.resultContainer}>
+              {results.map(result => (
+                <Pressable
+                  key={result.id}
+                  onPress={() => {
+                    Alert.alert("You've selected a location", result.name);
+                    Keyboard.dismiss();
+                    setQuery('');
+                  }}
+                  style={[
+                    styles.openInput,
+                    {
+                      backgroundColor:
+                        themeStyles.secondaryContainer.backgroundColor,
+                    },
+                  ]}>
+                  <LocationIcon width={18} height={18} fill="#000000" />
+                  <Text>
+                    {result.name}, {result.country}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
           </Animated.View>
         </Pressable>
       </Animated.View>
@@ -164,6 +222,9 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
 };
 
 const styles = StyleSheet.create({
+  hide: {
+    opacity: 0,
+  },
   wrapper: {
     zIndex: 999,
   },
@@ -193,13 +254,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
   },
+  loadingIndicatorContainer: {
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   openInput: {
-    fontFamily: 'RNS Sanz',
-    fontSize: 16,
-    fontWeight: 'bold',
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 8,
     padding: 8,
     width: '100%',
     borderRadius: 4,
+  },
+  openTextInput: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  resultContainer: {
+    marginTop: 8,
+    gap: 8,
   },
 });
 

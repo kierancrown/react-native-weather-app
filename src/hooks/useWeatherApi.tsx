@@ -4,6 +4,7 @@ import axios, {AxiosError} from 'axios';
 
 const useAutoComplete = (query: string) => {
   const [results, setResults] = useState<AutoCompleteResult[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!query || query.length < 3) {
@@ -12,6 +13,7 @@ const useAutoComplete = (query: string) => {
     }
 
     const performRequest = async () => {
+      setLoading(true);
       const options = {
         method: 'GET',
         url: `${API_URL}/search.json`,
@@ -31,11 +33,12 @@ const useAutoComplete = (query: string) => {
         console.error(error);
         setResults([]);
       }
+      setLoading(false);
     };
     performRequest();
   }, [query]);
 
-  return results;
+  return {results, loading};
 };
 
 export {useAutoComplete};
