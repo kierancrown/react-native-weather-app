@@ -1,5 +1,12 @@
-import React, {FC} from 'react';
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {FC, useState} from 'react';
+import {
+  RefreshControl,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import LocationFab from '../components/LocationFab';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,6 +22,7 @@ interface IForecastProps {}
 const ForecastScreen: FC<IForecastProps> = () => {
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
+  const [refreshing, setRefreshing] = useState(false);
 
   const statusBarOpacity = useAnimatedStyle(() => {
     return {
@@ -23,6 +31,13 @@ const ForecastScreen: FC<IForecastProps> = () => {
       }),
     };
   });
+
+  const fakeLoading = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   return (
     <LinearGradient colors={['#2F80ED', '#56CCF2']} style={styles.flex}>
@@ -42,6 +57,13 @@ const ForecastScreen: FC<IForecastProps> = () => {
         />
       </Animated.View>
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fakeLoading}
+            progressViewOffset={insets.top}
+          />
+        }
         onScroll={event => {
           StatusBar.setBarStyle(
             event.nativeEvent.contentOffset.y <= 0
@@ -84,6 +106,7 @@ const styles = StyleSheet.create({
   locationViewContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 40,
   },
   updatedText: {
     fontFamily: 'RNS Sanz',

@@ -23,6 +23,9 @@ const useThemeStyles = () => {
     primaryText: {
       color: colors.primary,
     },
+    openSheet: {
+      backgroundColor: colorScheme === 'dark' ? '#000000' : '#ffffff',
+    },
     container: {
       flex: 1,
       backgroundColor:
