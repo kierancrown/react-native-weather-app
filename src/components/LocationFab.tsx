@@ -23,7 +23,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThemeStyles} from '../hooks/useTheme';
-import {useAutoComplete} from '../hooks/useWeatherApi';
+import {useAutoComplete} from '../hooks/useAutoComplete';
 import RNLocation from 'react-native-location';
 
 import rnTextSize from 'react-native-text-size';

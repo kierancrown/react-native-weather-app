@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
-import {useAutoComplete} from '../../hooks/useWeatherApi';
+import {useAutoComplete} from '../../hooks/useAutoComplete';
 import {FlashList} from '@shopify/flash-list';
 import SearchInput from './components/SearchInput';
 import EmptyView from './components/EmptyView';

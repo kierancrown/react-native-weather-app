@@ -16,12 +16,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {BlurView} from '@react-native-community/blur';
-import Button from '../components/Button';
-import {useTheme} from '../hooks/useTheme';
-import {useDispatch} from 'react-redux';
-import {AppDispatch} from '../redux/store';
-import {resetUnits} from '../redux/slices/unitsSlice';
-import {resetSettings} from '../redux/slices/onboardingSlice';
+import {useRealtimeWeather} from '../hooks/useRealtimeWeather';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
 
 interface IForecastProps {}
 
@@ -30,8 +27,16 @@ const ForecastScreen: FC<IForecastProps> = () => {
   const scrollY = useSharedValue(0);
   const [refreshing, setRefreshing] = useState(false);
 
-  const [, updateTheme] = useTheme();
-  const dispatch = useDispatch<AppDispatch>();
+  const currentLocation = useSelector(
+    (state: RootState) => state.persistent.locations.currentLocation,
+  );
+  const {result: forecast, loading} = useRealtimeWeather(
+    `${currentLocation.lat}, ${currentLocation.lon}`,
+  );
+
+  const unitsPreferences = useSelector(
+    (state: RootState) => state.persistent.units,
+  );
 
   const statusBarOpacity = useAnimatedStyle(() => {
     return {
@@ -46,14 +51,6 @@ const ForecastScreen: FC<IForecastProps> = () => {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
-  };
-
-  const reset = () => {
-    updateTheme({
-      mode: 'system',
-    });
-    dispatch(resetUnits());
-    dispatch(resetSettings());
   };
 
   return (
@@ -97,9 +94,19 @@ const ForecastScreen: FC<IForecastProps> = () => {
             <View style={styles.spacer} />
             <Text style={styles.updatedText}>Updated: 2 mins ago</Text>
           </View>
-        </SafeAreaView>
 
-        <Button title="RESET EVERYTING" color="red" onPress={reset} />
+          <View style={styles.currentConditionsContainer}>
+            <Text style={styles.tempText}>
+              {unitsPreferences.tempUnit === 'C'
+                ? forecast?.current?.temp_c
+                : forecast?.current?.temp_f}
+              °
+            </Text>
+            <Text style={styles.conditionText}>
+              {forecast?.current?.condition?.text}
+            </Text>
+          </View>
+        </SafeAreaView>
       </ScrollView>
     </LinearGradient>
   );
@@ -132,6 +139,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#ffffff',
+  },
+  tempText: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 84,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  conditionText: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  currentConditionsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
