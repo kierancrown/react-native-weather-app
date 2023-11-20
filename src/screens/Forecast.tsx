@@ -16,10 +16,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {BlurView} from '@react-native-community/blur';
-import {useRealtimeWeather} from '../hooks/useRealtimeWeather';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {roundNumber} from '../utils/math';
+import {useForecast} from '../hooks/useForecast';
 
 interface IForecastProps {}
 
@@ -34,7 +34,7 @@ const ForecastScreen: FC<IForecastProps> = () => {
     result: forecast,
     refetch,
     loading,
-  } = useRealtimeWeather(`${currentLocation.lat}, ${currentLocation.lon}`);
+  } = useForecast(`${currentLocation.lat}, ${currentLocation.lon}`);
 
   const unitsPreferences = useSelector(
     (state: RootState) => state.persistent.units,
@@ -85,8 +85,6 @@ const ForecastScreen: FC<IForecastProps> = () => {
         scrollEventThrottle={16}>
         <LocationFab />
         <SafeAreaView style={styles.container}>
-          {/* <Text style={styles.updatedText}>Updated: 2 mins ago</Text> */}
-
           <View style={styles.currentConditionsContainer}>
             <Text style={styles.tempText}>
               {roundNumber(
@@ -99,6 +97,27 @@ const ForecastScreen: FC<IForecastProps> = () => {
             <Text style={styles.conditionText}>
               {forecast?.current?.condition?.text}
             </Text>
+
+            <View style={styles.hiLoContainer}>
+              <Text style={styles.hiLoText}>
+                H:{' '}
+                {roundNumber(
+                  (unitsPreferences.tempUnit === 'C'
+                    ? forecast?.forecast?.forecastday[0]?.day?.maxtemp_c
+                    : forecast?.forecast?.forecastday[0]?.day?.maxtemp_f) ?? 0,
+                )}
+                °
+              </Text>
+              <Text style={styles.hiLoText}>
+                L:{' '}
+                {roundNumber(
+                  (unitsPreferences.tempUnit === 'C'
+                    ? forecast?.forecast?.forecastday[0]?.day?.mintemp_c
+                    : forecast?.forecast?.forecastday[0]?.day?.mintemp_f) ?? 0,
+                )}
+                °
+              </Text>
+            </View>
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -152,7 +171,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 16,
+  },
+  hiLoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  hiLoText: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  hiLoSplitter: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
   },
 });
-
 export default ForecastScreen;
