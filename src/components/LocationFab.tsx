@@ -50,11 +50,15 @@ const useLocationFabAnimation = (
     const openedHeight = clamp(
       SCREEN_HEIGHT - insets.top - 32 - keyboardHeight.value,
       130,
-      SCREEN_HEIGHT - insets.top - 32,
+      SCREEN_HEIGHT - insets.top - insets.bottom - 32,
     );
 
     return {
-      // TODO: Somehow make the width shrink to auto
+      left: interpolate(
+        openState.value,
+        [0, 1],
+        [SCREEN_WIDTH / 2 - autoWidth.value / 2, 16],
+      ),
       width: interpolate(
         openState.value,
         [0, 1],
@@ -400,7 +404,6 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'absolute',
-    left: 16,
     zIndex: 999,
     borderWidth: 1.5,
     overflow: 'hidden',

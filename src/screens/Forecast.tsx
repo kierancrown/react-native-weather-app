@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -19,20 +19,22 @@ import {BlurView} from '@react-native-community/blur';
 import {useRealtimeWeather} from '../hooks/useRealtimeWeather';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
+import {roundNumber} from '../utils/math';
 
 interface IForecastProps {}
 
 const ForecastScreen: FC<IForecastProps> = () => {
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
-  const [refreshing, setRefreshing] = useState(false);
 
   const currentLocation = useSelector(
     (state: RootState) => state.persistent.locations.currentLocation,
   );
-  const {result: forecast, loading} = useRealtimeWeather(
-    `${currentLocation.lat}, ${currentLocation.lon}`,
-  );
+  const {
+    result: forecast,
+    refetch,
+    loading,
+  } = useRealtimeWeather(`${currentLocation.lat}, ${currentLocation.lon}`);
 
   const unitsPreferences = useSelector(
     (state: RootState) => state.persistent.units,
@@ -45,13 +47,6 @@ const ForecastScreen: FC<IForecastProps> = () => {
       }),
     };
   });
-
-  const fakeLoading = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
 
   return (
     <LinearGradient colors={['#2F80ED', '#56CCF2']} style={styles.flex}>
@@ -73,8 +68,8 @@ const ForecastScreen: FC<IForecastProps> = () => {
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
-            onRefresh={fakeLoading}
+            refreshing={loading}
+            onRefresh={refetch}
             progressViewOffset={insets.top}
           />
         }
@@ -90,16 +85,15 @@ const ForecastScreen: FC<IForecastProps> = () => {
         scrollEventThrottle={16}>
         <LocationFab />
         <SafeAreaView style={styles.container}>
-          <View style={styles.locationViewContainer}>
-            <View style={styles.spacer} />
-            <Text style={styles.updatedText}>Updated: 2 mins ago</Text>
-          </View>
+          {/* <Text style={styles.updatedText}>Updated: 2 mins ago</Text> */}
 
           <View style={styles.currentConditionsContainer}>
             <Text style={styles.tempText}>
-              {unitsPreferences.tempUnit === 'C'
-                ? forecast?.current?.temp_c
-                : forecast?.current?.temp_f}
+              {roundNumber(
+                (unitsPreferences.tempUnit === 'C'
+                  ? forecast?.current?.temp_c
+                  : forecast?.current?.temp_f) ?? 0,
+              )}
               °
             </Text>
             <Text style={styles.conditionText}>
@@ -119,6 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 86,
   },
   statusBarBlur: {
     position: 'absolute',
@@ -130,9 +125,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   locationViewContainer: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
   },
   updatedText: {
     fontFamily: 'RNS Sanz',
@@ -142,8 +136,8 @@ const styles = StyleSheet.create({
   },
   tempText: {
     fontFamily: 'RNS Sanz',
-    fontSize: 84,
-    fontWeight: 'bold',
+    fontSize: 120,
+    fontWeight: '500',
     color: '#ffffff',
     textAlign: 'center',
   },
