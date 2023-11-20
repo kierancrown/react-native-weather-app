@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Dimensions,
   Keyboard,
   Pressable,
@@ -316,9 +315,15 @@ const LocationFab: FC = () => {
                 <Pressable
                   key={currentLocationResult[0].id}
                   onPress={() => {
-                    Alert.alert(
-                      "You've selected a location",
-                      currentLocationResult[0].name,
+                    dispatch(
+                      setCurrentLocation({
+                        id: `${currentLocationResult[0].id}`,
+                        isDeviceLocation: true,
+                        lat: currentLocationResult[0].lat,
+                        lon: currentLocationResult[0].lon,
+                        name: currentLocationResult[0].name,
+                        country: currentLocationResult[0].country,
+                      }),
                     );
                     close();
                   }}
@@ -345,7 +350,17 @@ const LocationFab: FC = () => {
                 <Pressable
                   key={result.id}
                   onPress={() => {
-                    Alert.alert("You've selected a location", result.name);
+                    console.log(result);
+                    dispatch(
+                      setCurrentLocation({
+                        id: `${result.id}`,
+                        isDeviceLocation: true,
+                        lat: result.lat,
+                        lon: result.lon,
+                        name: result.name,
+                        country: result.country,
+                      }),
+                    );
                     close();
                   }}
                   style={[
