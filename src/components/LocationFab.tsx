@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -11,9 +11,11 @@ import {
   View,
 } from 'react-native';
 import LocationIcon from '../assets/location-dot-outline.svg';
+import CurrentLocationIcon from '../assets/location-arrow.svg';
 import {BlurView} from '@react-native-community/blur';
 import Animated, {
   SharedValue,
+  clamp,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -23,12 +25,14 @@ import Animated, {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useThemeStyles} from '../hooks/useTheme';
 import {useAutoComplete} from '../hooks/useWeatherApi';
+import RNLocation from 'react-native-location';
+
+import rnTextSize from 'react-native-text-size';
 
 import SearchIcon from '../assets/search.svg';
-
-interface ILocationFabProps {
-  currentLocation: string;
-}
+import {setCurrentLocation} from '../redux/slices/locationsSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../redux/store';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -36,6 +40,7 @@ const HEIGHT = 40;
 
 //#region Animation Hook
 const useLocationFabAnimation = (
+  autoWidth: SharedValue<number>,
   openState: SharedValue<number>,
   keyboardHeight: SharedValue<number>,
   themeStyles: any, // Replace 'any' with your theme styles type
@@ -43,10 +48,19 @@ const useLocationFabAnimation = (
   const insets = useSafeAreaInsets();
 
   const openContainerAnimatedStyles = useAnimatedStyle(() => {
-    const openedHeight = SCREEN_HEIGHT - insets.top - 32 - keyboardHeight.value;
+    const openedHeight = clamp(
+      SCREEN_HEIGHT - insets.top - 32 - keyboardHeight.value,
+      130,
+      SCREEN_HEIGHT - insets.top - 32,
+    );
 
     return {
-      width: interpolate(openState.value, [0, 1], [100, SCREEN_WIDTH - 32]),
+      // TODO: Somehow make the width shrink to auto
+      width: interpolate(
+        openState.value,
+        [0, 1],
+        [autoWidth.value, SCREEN_WIDTH - 32],
+      ),
       opacity: interpolate(openState.value, [0, 1], [0.8, 1]),
       borderColor: interpolateColor(
         openState.value,
@@ -106,15 +120,35 @@ const useLocationFabAnimation = (
 };
 //#endregion
 
-const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
+const LocationFab: FC = () => {
   const themeStyles = useThemeStyles();
   const inputRef = useRef<TextInput>(null);
+  const blurRef = useRef<View>(null);
+
+  const locations = useSelector(
+    (state: RootState) => state.persistent.locations,
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const autoWidth = useSharedValue(0);
   const openState = useSharedValue(0);
   const keyboardHeight = useSharedValue(0);
 
+  const insets = useSafeAreaInsets();
+
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
+
+  const [deviceLatLon, setDeviceLatLon] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const {results, loading} = useAutoComplete(query);
+  const {results: currentLocationResult, loading: currentLocationLoading} =
+    useAutoComplete(
+      deviceLatLon ? `${deviceLatLon.latitude},${deviceLatLon.longitude}` : '',
+    );
 
   Keyboard.addListener('keyboardWillShow', e => {
     keyboardHeight.value = e.endCoordinates.height;
@@ -130,25 +164,115 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
     openStateAnimatedTextStyles,
     openStateAnimatedHeaderStyles,
     openStateAnimatedHeaderIconStyles,
-  } = useLocationFabAnimation(openState, keyboardHeight, themeStyles);
+  } = useLocationFabAnimation(
+    autoWidth,
+    openState,
+    keyboardHeight,
+    themeStyles,
+  );
+
+  const close = () => {
+    setQuery('');
+    inputRef.current?.blur();
+    setIsOpen(false);
+    openState.value = withTiming(0, {
+      duration: 200,
+    });
+  };
+
+  const backdropAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(openState.value, [0, 1], [0, 0.8]),
+      height: SCREEN_HEIGHT,
+    };
+  }, []);
+
+  // Check if current location is current device and grab the info
+  useEffect(() => {
+    if (
+      locations.currentLocation.isDeviceLocation &&
+      locations.currentLocation.lat === 0 &&
+      locations.currentLocation.lon === 0
+    ) {
+      RNLocation.getLatestLocation({timeout: 60000}).then(latestLocation => {
+        if (latestLocation) {
+          setDeviceLatLon({
+            latitude: latestLocation.latitude,
+            longitude: latestLocation.longitude,
+          });
+        }
+      });
+    }
+  }, [locations.currentLocation]);
+
+  // Update redux store with current location
+  useEffect(() => {
+    if (!currentLocationLoading && currentLocationResult.length) {
+      dispatch(
+        setCurrentLocation({
+          id: `${currentLocationResult[0].id}`,
+          isDeviceLocation: true,
+          lat: currentLocationResult[0].lat,
+          lon: currentLocationResult[0].lon,
+          name: currentLocationResult[0].name,
+          country: currentLocationResult[0].country,
+        }),
+      );
+    }
+  }, [currentLocationResult, currentLocationLoading, dispatch]);
+
+  // Measure the width of the location text (Needed for the animation)
+  useEffect(() => {
+    (async () => {
+      const size = await rnTextSize.measure({
+        text: locations.currentLocation.name,
+        width: SCREEN_WIDTH,
+        fontFamily: 'RNS Sanz',
+        fontSize: 16,
+      });
+
+      autoWidth.value = size.width + 64;
+    })();
+  }, [autoWidth, locations.currentLocation.name]);
 
   return (
-    <Pressable onPress={handlePress} style={styles.wrapper}>
-      <Animated.View style={[styles.container, openContainerAnimatedStyles]}>
-        <BlurView
-          style={StyleSheet.absoluteFillObject}
-          blurType="regular"
-          blurAmount={10}
-          reducedTransparencyFallbackColor="white"
-        />
-        <Animated.View style={[styles.pill, openStateAnimatedHeaderStyles]}>
-          <Animated.View style={openStateAnimatedHeaderIconStyles}>
-            <LocationIcon width={18} height={18} fill="#ffffff" />
+    <>
+      <Animated.View
+        style={[StyleSheet.absoluteFillObject, backdropAnimatedStyles]}>
+        <Pressable style={styles.flex} onPress={close}>
+          <BlurView
+            style={StyleSheet.absoluteFillObject}
+            blurType="thickMaterial"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+        </Pressable>
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.container,
+          openContainerAnimatedStyles,
+          {
+            top: insets.top + 16,
+          },
+        ]}>
+        <Pressable onPress={handlePress}>
+          <BlurView
+            ref={blurRef}
+            style={StyleSheet.absoluteFillObject}
+            blurType="regular"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+          <Animated.View style={[styles.pill, openStateAnimatedHeaderStyles]}>
+            <Animated.View style={openStateAnimatedHeaderIconStyles}>
+              <LocationIcon width={18} height={18} fill="#ffffff" />
+            </Animated.View>
+            <Animated.Text style={[styles.text, openStateAnimatedTextStyles]}>
+              {isOpen ? 'Add new location' : locations.currentLocation.name}
+            </Animated.Text>
           </Animated.View>
-          <Animated.Text style={[styles.text, openStateAnimatedTextStyles]}>
-            {isOpen ? 'Add new location' : currentLocation}
-          </Animated.Text>
-        </Animated.View>
+        </Pressable>
 
         {/* Pulled down state */}
         <Pressable style={[styles.openContainer, !isOpen && styles.hide]}>
@@ -171,8 +295,9 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
                 />
               )}
               <TextInput
-                style={[styles.openTextInput]}
+                style={[styles.openTextInput, themeStyles.text]}
                 placeholder="Search for a location"
+                cursorColor={themeStyles.text.color}
                 returnKeyLabel="Close"
                 returnKeyType="done"
                 ref={inputRef}
@@ -182,23 +307,20 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
                   setIsOpen(true);
                   openState.value = withTiming(1);
                 }}
-                onBlur={() => {
-                  setIsOpen(false);
-                  openState.value = withTiming(0, {
-                    duration: 200,
-                  });
-                }}
               />
             </Pressable>
 
             <View style={styles.resultContainer}>
-              {results.map(result => (
+              {currentLocationLoading === false &&
+              currentLocationResult.length ? (
                 <Pressable
-                  key={result.id}
+                  key={currentLocationResult[0].id}
                   onPress={() => {
-                    Alert.alert("You've selected a location", result.name);
-                    Keyboard.dismiss();
-                    setQuery('');
+                    Alert.alert(
+                      "You've selected a location",
+                      currentLocationResult[0].name,
+                    );
+                    close();
                   }}
                   style={[
                     styles.openInput,
@@ -207,8 +329,38 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
                         themeStyles.secondaryContainer.backgroundColor,
                     },
                   ]}>
-                  <LocationIcon width={18} height={18} fill="#000000" />
-                  <Text>
+                  <CurrentLocationIcon
+                    width={18}
+                    height={18}
+                    fill={themeStyles.text.color}
+                  />
+                  <Text style={themeStyles.text}>
+                    {currentLocationResult[0].name},{' '}
+                    {currentLocationResult[0].country}
+                  </Text>
+                </Pressable>
+              ) : null}
+
+              {results.map(result => (
+                <Pressable
+                  key={result.id}
+                  onPress={() => {
+                    Alert.alert("You've selected a location", result.name);
+                    close();
+                  }}
+                  style={[
+                    styles.openInput,
+                    {
+                      backgroundColor:
+                        themeStyles.secondaryContainer.backgroundColor,
+                    },
+                  ]}>
+                  <LocationIcon
+                    width={18}
+                    height={18}
+                    fill={themeStyles.text.color}
+                  />
+                  <Text style={themeStyles.text}>
                     {result.name}, {result.country}
                   </Text>
                 </Pressable>
@@ -217,7 +369,7 @@ const LocationFab: FC<ILocationFabProps> = ({currentLocation}) => {
           </Animated.View>
         </Pressable>
       </Animated.View>
-    </Pressable>
+    </>
   );
 };
 
@@ -225,12 +377,15 @@ const styles = StyleSheet.create({
   hide: {
     opacity: 0,
   },
+  flex: {
+    flex: 1,
+  },
   wrapper: {
     zIndex: 999,
   },
   container: {
     position: 'absolute',
-    top: -(HEIGHT / 2),
+    left: 16,
     zIndex: 999,
     borderWidth: 1.5,
     overflow: 'hidden',
@@ -272,10 +427,12 @@ const styles = StyleSheet.create({
     fontFamily: 'RNS Sanz',
     fontSize: 16,
     fontWeight: 'bold',
+    padding: 0,
   },
   resultContainer: {
     marginTop: 8,
     gap: 8,
+    zIndex: 999,
   },
 });
 

@@ -13,16 +13,18 @@ import {
 
 import onboardingSlice from './slices/onboardingSlice';
 import unitsSlice from './slices/unitsSlice';
+import locationsSlice from './slices/locationsSlice';
 
 const persistConfig = {
   key: 'persisted',
   storage: AsyncStorage,
-  whitelist: ['onboarding', 'units'],
+  whitelist: ['onboarding', 'units', 'locations'],
 };
 
 const reducers = combineReducers({
   onboarding: onboardingSlice,
   units: unitsSlice,
+  locations: locationsSlice,
 });
 
 const rootReducer = combineReducers({

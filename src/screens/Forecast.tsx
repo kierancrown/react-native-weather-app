@@ -16,6 +16,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {BlurView} from '@react-native-community/blur';
+import Button from '../components/Button';
+import {useTheme} from '../hooks/useTheme';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../redux/store';
+import {resetUnits} from '../redux/slices/unitsSlice';
+import {resetSettings} from '../redux/slices/onboardingSlice';
 
 interface IForecastProps {}
 
@@ -23,6 +29,9 @@ const ForecastScreen: FC<IForecastProps> = () => {
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
   const [refreshing, setRefreshing] = useState(false);
+
+  const [, updateTheme] = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
 
   const statusBarOpacity = useAnimatedStyle(() => {
     return {
@@ -37,6 +46,14 @@ const ForecastScreen: FC<IForecastProps> = () => {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
+  };
+
+  const reset = () => {
+    updateTheme({
+      mode: 'system',
+    });
+    dispatch(resetUnits());
+    dispatch(resetSettings());
   };
 
   return (
@@ -74,13 +91,15 @@ const ForecastScreen: FC<IForecastProps> = () => {
           scrollY.value = event.nativeEvent.contentOffset.y;
         }}
         scrollEventThrottle={16}>
+        <LocationFab />
         <SafeAreaView style={styles.container}>
           <View style={styles.locationViewContainer}>
-            <LocationFab currentLocation="Paris" />
             <View style={styles.spacer} />
             <Text style={styles.updatedText}>Updated: 2 mins ago</Text>
           </View>
         </SafeAreaView>
+
+        <Button title="RESET EVERYTING" color="red" onPress={reset} />
       </ScrollView>
     </LinearGradient>
   );
