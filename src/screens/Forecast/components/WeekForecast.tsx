@@ -1,10 +1,12 @@
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {RootState} from '../../../redux/store';
 import {useSelector} from 'react-redux';
 
 import dayjs from 'dayjs';
 import {roundNumber} from '../../../utils/math';
+
+import rnTextSize from 'react-native-text-size';
 
 import {day} from '../../../utils/weatherAssets';
 
@@ -16,10 +18,28 @@ interface IWeekForecastProps {
   days: Forecastday[];
 }
 
+const SCREEN_WIDTH = Dimensions.get('screen').width;
+
 const WeekForecast = ({days}: IWeekForecastProps) => {
   const unitsPreferences = useSelector(
     (state: RootState) => state.persistent.units,
   );
+
+  const [textWidth, setTextWidth] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const size = await rnTextSize.measure({
+        text: 'Today',
+        width: SCREEN_WIDTH,
+        fontFamily: 'RNS Sanz',
+        fontWeight: 'bold',
+        fontSize: 16,
+      });
+
+      setTextWidth(size.width);
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -36,7 +56,7 @@ const WeekForecast = ({days}: IWeekForecastProps) => {
         {days.map((forecast, i) => {
           return (
             <View style={styles.item} key={forecast.date_epoch}>
-              <Text style={[styles.text, styles.date]}>
+              <Text style={[styles.text, styles.date, {width: textWidth}]}>
                 {i === 0 ? 'Today' : dayjs(forecast.date).format('ddd')}
               </Text>
               <LottieView

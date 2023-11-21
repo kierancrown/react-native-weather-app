@@ -104,12 +104,14 @@ const ForecastScreen: FC<IForecastProps> = () => {
             Dimensions.get('screen').height - insets.top - insets.bottom,
         }}
         onScroll={event => {
-          StatusBar.setBarStyle(
-            event.nativeEvent.contentOffset.y <= 0
-              ? 'light-content'
-              : 'dark-content',
-            true,
-          );
+          if (systemColorScheme === 'light') {
+            StatusBar.setBarStyle(
+              event.nativeEvent.contentOffset.y <= 0
+                ? 'light-content'
+                : 'dark-content',
+              true,
+            );
+          }
           scrollY.value = event.nativeEvent.contentOffset.y;
         }}
         scrollEventThrottle={16}
