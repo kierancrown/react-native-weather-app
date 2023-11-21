@@ -347,8 +347,7 @@ const LocationFab: FC = () => {
               )}
               <TextInput
                 style={[
-                  styles.openTextInput,
-                  styles.text,
+                  styles.TextInput,
                   {
                     color: themeStyles.text.color,
                   },
@@ -501,17 +500,18 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 4,
   },
-  openTextInput: {
-    width: '100%',
-    fontFamily: 'RNS Sanz',
-    fontSize: 16,
-    fontWeight: 'bold',
-    padding: 0,
-  },
   resultContainer: {
     marginTop: 8,
     gap: 8,
     zIndex: 999,
+  },
+  TextInput: {
+    width: '100%',
+    fontFamily: 'RNS Sanz',
+    fontSize: 16,
+    fontWeight: 'bold',
+    // TODO: Fix Android bug, when setting padi=ding to 0 the input does not focus
+    // padding: 0,
   },
 });
 

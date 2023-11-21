@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {
   Dimensions,
+  Platform,
   RefreshControl,
   ScrollView,
   StatusBar,
@@ -51,21 +52,23 @@ const ForecastScreen: FC<IForecastProps> = () => {
 
   return (
     <LinearGradient colors={['#2F80ED', '#56CCF2']} style={styles.flex}>
-      <Animated.View
-        style={[
-          styles.statusBarBlur,
-          {
-            height: insets.top + 8,
-          },
-          statusBarOpacity,
-        ]}>
-        <BlurView
-          style={StyleSheet.absoluteFillObject}
-          blurType="light"
-          blurAmount={10}
-          reducedTransparencyFallbackColor="white"
-        />
-      </Animated.View>
+      {Platform.OS === 'ios' && (
+        <Animated.View
+          style={[
+            styles.statusBarBlur,
+            {
+              height: insets.top + 8,
+            },
+            statusBarOpacity,
+          ]}>
+          <BlurView
+            style={StyleSheet.absoluteFillObject}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+        </Animated.View>
+      )}
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -137,7 +140,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    paddingTop: 86,
   },
   statusBarBlur: {
     position: 'absolute',
