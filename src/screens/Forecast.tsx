@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
 import {
+  Dimensions,
   RefreshControl,
   ScrollView,
   StatusBar,
@@ -73,6 +74,10 @@ const ForecastScreen: FC<IForecastProps> = () => {
             progressViewOffset={insets.top}
           />
         }
+        contentContainerStyle={{
+          minHeight:
+            Dimensions.get('screen').height - insets.top - insets.bottom,
+        }}
         onScroll={event => {
           StatusBar.setBarStyle(
             event.nativeEvent.contentOffset.y <= 0

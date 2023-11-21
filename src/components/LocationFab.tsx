@@ -1,8 +1,10 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
+  BackHandler,
   Dimensions,
   Keyboard,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -50,7 +52,10 @@ const useLocationFabAnimation = (
     const openedHeight = clamp(
       SCREEN_HEIGHT - insets.top - 32 - keyboardHeight.value,
       130,
-      SCREEN_HEIGHT - insets.top - insets.bottom - 32,
+      SCREEN_HEIGHT -
+        insets.top -
+        insets.bottom -
+        (Platform.OS === 'ios' ? 32 : 132),
     );
 
     return {
@@ -83,7 +88,7 @@ const useLocationFabAnimation = (
   const openInputAnimatedStyles = useAnimatedStyle(() => {
     return {
       pointerEvents: openState.value === 0 ? 'none' : 'auto',
-      opacity: withTiming(openState.value),
+      opacity: openState.value,
     };
   });
 
@@ -94,6 +99,12 @@ const useLocationFabAnimation = (
         [0, 1],
         ['#ffffff', themeStyles.text.color],
       ),
+    };
+  });
+
+  const openStateAnimatedCloseStyles = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(openState.value, [0, 1], [0, 1]),
     };
   });
 
@@ -114,6 +125,7 @@ const useLocationFabAnimation = (
   });
 
   return {
+    openStateAnimatedCloseStyles,
     openContainerAnimatedStyles,
     openInputAnimatedStyles,
     openStateAnimatedTextStyles,
@@ -148,6 +160,7 @@ const LocationFab: FC = () => {
     longitude: number;
   } | null>(null);
   const {results, loading} = useAutoComplete(query);
+
   const {results: currentLocationResult, loading: currentLocationLoading} =
     useAutoComplete(
       deviceLatLon ? `${deviceLatLon.latitude},${deviceLatLon.longitude}` : '',
@@ -157,13 +170,24 @@ const LocationFab: FC = () => {
     keyboardHeight.value = e.endCoordinates.height;
   });
 
+  BackHandler.addEventListener('hardwareBackPress', () => {
+    if (isOpen) {
+      close();
+      return true;
+    }
+    return false;
+  });
+
   const handlePress = () => {
+    setIsOpen(true);
+    openState.value = withTiming(1);
     inputRef.current?.focus();
   };
 
   const {
     openContainerAnimatedStyles,
     openInputAnimatedStyles,
+    openStateAnimatedCloseStyles,
     openStateAnimatedTextStyles,
     openStateAnimatedHeaderStyles,
     openStateAnimatedHeaderIconStyles,
@@ -183,6 +207,10 @@ const LocationFab: FC = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(currentLocationResult);
+  }, [currentLocationResult]);
+
   const backdropAnimatedStyles = useAnimatedStyle(() => {
     return {
       opacity: interpolate(openState.value, [0, 1], [0, 0.8]),
@@ -192,20 +220,24 @@ const LocationFab: FC = () => {
 
   // Check if current location is current device and grab the info
   useEffect(() => {
-    if (
-      locations.currentLocation.isDeviceLocation &&
-      locations.currentLocation.lat === 0 &&
-      locations.currentLocation.lon === 0
-    ) {
-      RNLocation.getLatestLocation({timeout: 60000}).then(latestLocation => {
-        if (latestLocation) {
-          setDeviceLatLon({
-            latitude: latestLocation.latitude,
-            longitude: latestLocation.longitude,
-          });
-        }
-      });
-    }
+    RNLocation.getCurrentPermission().then(permission => {
+      if (permission !== 'authorizedWhenInUse') {
+        RNLocation.requestPermission({
+          ios: 'whenInUse',
+          android: {
+            detail: 'coarse',
+          },
+        });
+      }
+    }, console.error);
+    RNLocation.getLatestLocation({timeout: 60000}).then(latestLocation => {
+      if (latestLocation) {
+        setDeviceLatLon({
+          latitude: latestLocation.latitude,
+          longitude: latestLocation.longitude,
+        });
+      }
+    });
   }, [locations.currentLocation]);
 
   // Update redux store with current location
@@ -240,6 +272,7 @@ const LocationFab: FC = () => {
 
   return (
     <>
+      {/* Backdrop */}
       <Animated.View
         style={[StyleSheet.absoluteFillObject, backdropAnimatedStyles]}>
         <Pressable style={styles.flex} onPress={close}>
@@ -274,6 +307,19 @@ const LocationFab: FC = () => {
             <Animated.Text style={[styles.text, openStateAnimatedTextStyles]}>
               {isOpen ? 'Add new location' : locations.currentLocation.name}
             </Animated.Text>
+            <Pressable
+              onPress={close}
+              disabled={!isOpen}
+              style={styles.closeTextContainer}>
+              <Animated.Text
+                style={[
+                  styles.text,
+                  themeStyles.primaryText,
+                  openStateAnimatedCloseStyles,
+                ]}>
+                Close
+              </Animated.Text>
+            </Pressable>
           </Animated.View>
         </Pressable>
 
@@ -282,7 +328,9 @@ const LocationFab: FC = () => {
           <Animated.View style={[openInputAnimatedStyles]}>
             <Pressable
               style={[styles.openInput, themeStyles.input]}
-              onPress={handlePress}>
+              onPress={() => {
+                inputRef.current?.focus();
+              }}>
               {loading ? (
                 <View style={styles.loadingIndicatorContainer}>
                   <ActivityIndicator
@@ -298,7 +346,13 @@ const LocationFab: FC = () => {
                 />
               )}
               <TextInput
-                style={[styles.openTextInput, themeStyles.text]}
+                style={[
+                  styles.openTextInput,
+                  styles.text,
+                  {
+                    color: themeStyles.text.color,
+                  },
+                ]}
                 placeholder="Search for a location"
                 cursorColor={themeStyles.text.color}
                 returnKeyLabel="Close"
@@ -348,7 +402,9 @@ const LocationFab: FC = () => {
                     {currentLocationResult[0].country}
                   </Text>
                 </Pressable>
-              ) : null}
+              ) : (
+                <Text>Missing</Text>
+              )}
 
               {results.map(result => (
                 <Pressable
@@ -411,7 +467,7 @@ const styles = StyleSheet.create({
   pill: {
     height: 37,
     flexDirection: 'row',
-    // justifyContent: 'center',
+    width: '100%',
     alignItems: 'center',
     paddingHorizontal: 16,
     columnGap: 8,
@@ -421,6 +477,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
+  },
+  closeTextContainer: {
+    marginLeft: 'auto',
+    marginRight: -32,
   },
   openContainer: {
     paddingVertical: 8,
@@ -442,6 +502,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   openTextInput: {
+    width: '100%',
     fontFamily: 'RNS Sanz',
     fontSize: 16,
     fontWeight: 'bold',
