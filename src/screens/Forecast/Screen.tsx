@@ -25,12 +25,14 @@ import {useForecast} from '../../hooks/useForecast';
 import HourlyForecast from './components/HourlyForecast';
 import LottieView from 'lottie-react-native';
 import {day, night} from '../../utils/weatherAssets';
+import {useTheme} from '../../hooks/useTheme';
 
 interface IForecastProps {}
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 const ForecastScreen: FC<IForecastProps> = () => {
+  const [, , systemColorScheme] = useTheme();
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
   const [backgroundGradient, setBackgroundGradient] = useState([
@@ -82,7 +84,7 @@ const ForecastScreen: FC<IForecastProps> = () => {
           ]}>
           <BlurView
             style={StyleSheet.absoluteFillObject}
-            blurType="light"
+            blurType={systemColorScheme === 'light' ? 'light' : 'dark'}
             blurAmount={10}
             reducedTransparencyFallbackColor="white"
           />
@@ -165,9 +167,11 @@ const ForecastScreen: FC<IForecastProps> = () => {
           </View>
 
           <View style={styles.hourlyContainer}>
-            <HourlyForecast
-              conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
-            />
+            {forecast && (
+              <HourlyForecast
+                conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
+              />
+            )}
           </View>
         </SafeAreaView>
       </ScrollView>

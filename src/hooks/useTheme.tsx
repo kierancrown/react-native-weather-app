@@ -5,6 +5,7 @@ import colors from '../constants/colors';
 
 const useTheme = () => {
   const {dispatch, theme} = useContext(ThemeProvider);
+  const systemColorScheme = useColorScheme();
 
   const updateTheme = (newTheme: Partial<IThemeProps>) => {
     dispatch({
@@ -12,7 +13,7 @@ const useTheme = () => {
       value: newTheme,
     });
   };
-  return [theme, updateTheme] as const;
+  return [theme, updateTheme, systemColorScheme] as const;
 };
 
 const useThemeStyles = () => {

@@ -7,7 +7,6 @@ import {useSelector} from 'react-redux';
 import dayjs from 'dayjs';
 import {roundNumber} from '../../../utils/math';
 
-// import conditionsMap from '../../../assets/weather-conditions.json';
 import {day, night} from '../../../utils/weatherAssets';
 
 import LottieView from 'lottie-react-native';
@@ -38,7 +37,8 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
         <FlashList
           horizontal
           showsHorizontalScrollIndicator={false}
-          estimatedItemSize={100}
+          keyboardShouldPersistTaps="always"
+          estimatedItemSize={66}
           data={conditions}
           renderItem={({item}) => {
             return (
@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     height: 100,
+    minHeight: 2,
+    minWidth: 2,
+    zIndex: 50,
   },
   item: {
     padding: 16,
