@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import LocationFab from '../components/LocationFab';
+import LocationFab from '../../components/LocationFab';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
@@ -19,9 +19,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import {BlurView} from '@react-native-community/blur';
 import {useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
-import {roundNumber} from '../utils/math';
-import {useForecast} from '../hooks/useForecast';
+import {RootState} from '../../redux/store';
+import {roundNumber} from '../../utils/math';
+import {useForecast} from '../../hooks/useForecast';
+import HourlyForecast from './components/HourlyForecast';
 
 interface IForecastProps {}
 
@@ -126,6 +127,12 @@ const ForecastScreen: FC<IForecastProps> = () => {
                 °
               </Text>
             </View>
+
+            <View style={styles.hourlyContainer}>
+              <HourlyForecast
+                conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
+              />
+            </View>
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -199,6 +206,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
+  },
+  hourlyContainer: {
+    height: 100,
+    alignItems: 'center',
   },
 });
 export default ForecastScreen;
