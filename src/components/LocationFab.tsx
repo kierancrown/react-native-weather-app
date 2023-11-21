@@ -213,10 +213,6 @@ const LocationFab: FC = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(currentLocationResult);
-  }, [currentLocationResult]);
-
   const backdropAnimatedStyles = useAnimatedStyle(() => {
     return {
       opacity: interpolate(openState.value, [0, 1], [0, 0.9]),

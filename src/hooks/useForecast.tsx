@@ -22,7 +22,6 @@ const useForecast = (query: string) => {
 
     try {
       const response = await axios.request<ForecastResult>(options);
-      console.log(JSON.stringify(response.data.forecast.forecastday, null, 2));
       setResult(response.data);
     } catch (e) {
       // Would normally log to an error to Sentry or similar
