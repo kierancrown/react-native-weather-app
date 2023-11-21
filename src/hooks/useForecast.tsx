@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {API_KEY, API_URL, API_HOST} from '@env';
 import axios, {AxiosError} from 'axios';
 import {ForecastResult} from '../types/api';
+import {Alert} from 'react-native';
 
 const useForecast = (query: string) => {
   const [result, setResult] = useState<ForecastResult>();
@@ -26,7 +27,7 @@ const useForecast = (query: string) => {
     } catch (e) {
       // Would normally log to an error to Sentry or similar
       const error = e as AxiosError;
-      console.error(error);
+      Alert.alert('Error', error.message);
       setResult(undefined);
     }
     setLoading(false);
