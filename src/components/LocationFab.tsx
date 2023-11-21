@@ -34,6 +34,7 @@ import SearchIcon from '../assets/search.svg';
 import {setCurrentLocation} from '../redux/slices/locationsSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../redux/store';
+import {HapticFeedbackTypes, triggerHaptic} from '../utils/haptics';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -178,9 +179,12 @@ const LocationFab: FC = () => {
     return false;
   });
 
-  const handlePress = () => {
+  const handlePress = async () => {
+    await triggerHaptic(HapticFeedbackTypes.impactLight);
     setIsOpen(true);
-    openState.value = withTiming(1);
+    openState.value = withTiming(1, {
+      duration: 200,
+    });
     inputRef.current?.focus();
   };
 
@@ -213,8 +217,10 @@ const LocationFab: FC = () => {
 
   const backdropAnimatedStyles = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(openState.value, [0, 1], [0, 0.8]),
+      opacity: interpolate(openState.value, [0, 1], [0, 0.9]),
       height: SCREEN_HEIGHT,
+      width: SCREEN_WIDTH,
+      zIndex: 999,
     };
   }, []);
 
@@ -275,7 +281,7 @@ const LocationFab: FC = () => {
       {/* Backdrop */}
       <Animated.View
         style={[StyleSheet.absoluteFillObject, backdropAnimatedStyles]}>
-        <Pressable style={styles.flex} onPress={close}>
+        <Pressable style={StyleSheet.absoluteFillObject} onPress={close}>
           <BlurView
             style={StyleSheet.absoluteFillObject}
             blurType="thickMaterial"
@@ -293,13 +299,15 @@ const LocationFab: FC = () => {
           },
         ]}>
         <Pressable onPress={handlePress}>
-          <BlurView
-            ref={blurRef}
-            style={StyleSheet.absoluteFillObject}
-            blurType="regular"
-            blurAmount={10}
-            reducedTransparencyFallbackColor="white"
-          />
+          {!isOpen && (
+            <BlurView
+              ref={blurRef}
+              style={StyleSheet.absoluteFillObject}
+              blurType="regular"
+              blurAmount={10}
+              reducedTransparencyFallbackColor="white"
+            />
+          )}
           <Animated.View style={[styles.pill, openStateAnimatedHeaderStyles]}>
             <Animated.View style={openStateAnimatedHeaderIconStyles}>
               <LocationIcon width={18} height={18} fill="#ffffff" />
@@ -359,10 +367,6 @@ const LocationFab: FC = () => {
                 ref={inputRef}
                 value={query}
                 onChangeText={setQuery}
-                onFocus={() => {
-                  setIsOpen(true);
-                  openState.value = withTiming(1);
-                }}
               />
             </Pressable>
 
@@ -371,7 +375,8 @@ const LocationFab: FC = () => {
               currentLocationResult.length ? (
                 <Pressable
                   key={currentLocationResult[0].id}
-                  onPress={() => {
+                  onPress={async () => {
+                    await triggerHaptic(HapticFeedbackTypes.impactMedium);
                     dispatch(
                       setCurrentLocation({
                         id: `${currentLocationResult[0].id}`,
@@ -408,8 +413,8 @@ const LocationFab: FC = () => {
               {results.map(result => (
                 <Pressable
                   key={result.id}
-                  onPress={() => {
-                    console.log(result);
+                  onPress={async () => {
+                    await triggerHaptic(HapticFeedbackTypes.impactMedium);
                     dispatch(
                       setCurrentLocation({
                         id: `${result.id}`,

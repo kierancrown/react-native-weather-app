@@ -109,7 +109,8 @@ const ForecastScreen: FC<IForecastProps> = () => {
           );
           scrollY.value = event.nativeEvent.contentOffset.y;
         }}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+        keyboardShouldPersistTaps="always">
         <LocationFab />
         <SafeAreaView style={styles.container}>
           <View style={styles.iconContainer}>
