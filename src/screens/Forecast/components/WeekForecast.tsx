@@ -52,7 +52,7 @@ const WeekForecast = ({days}: IWeekForecastProps) => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{days.length} Day Forecast</Text>
       </View>
-      <View>
+      <View style={styles.listContainer}>
         {days.map((forecast, i) => {
           return (
             <View style={styles.item} key={forecast.date_epoch}>
@@ -92,8 +92,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
   },
+  listContainer: {
+    gap: 16,
+    paddingVertical: 8,
+  },
   item: {
-    padding: 16,
+    paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
