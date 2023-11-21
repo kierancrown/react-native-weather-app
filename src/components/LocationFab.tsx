@@ -31,10 +31,17 @@ import RNLocation from 'react-native-location';
 import rnTextSize from 'react-native-text-size';
 
 import SearchIcon from '../assets/search.svg';
-import {setCurrentLocation} from '../redux/slices/locationsSlice';
+import BookmarkIcon from '../assets/bookmark.svg';
+
+import {
+  removeLocation,
+  saveLocation,
+  setCurrentLocation,
+} from '../redux/slices/locationsSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../redux/store';
 import {HapticFeedbackTypes, triggerHaptic} from '../utils/haptics';
+import {AutoCompleteResult} from '../types/api';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
@@ -262,6 +269,23 @@ const LocationFab: FC = () => {
     }
   }, [currentLocationResult, currentLocationLoading, dispatch]);
 
+  const bookmark = (location: AutoCompleteResult) => {
+    dispatch(
+      saveLocation({
+        id: `${location.id}`,
+        isDeviceLocation: false,
+        lat: location.lat,
+        lon: location.lon,
+        name: location.name,
+        country: location.country,
+      }),
+    );
+  };
+
+  const unbookmark = (id: string) => {
+    dispatch(removeLocation(id));
+  };
+
   // Measure the width of the location text (Needed for the animation)
   useEffect(() => {
     (async () => {
@@ -371,6 +395,7 @@ const LocationFab: FC = () => {
             </Pressable>
 
             <View style={styles.resultContainer}>
+              {/* Current locations */}
               {currentLocationLoading === false &&
               currentLocationResult.length ? (
                 <Pressable
@@ -406,44 +431,117 @@ const LocationFab: FC = () => {
                     {currentLocationResult[0].country}
                   </Text>
                 </Pressable>
-              ) : (
-                <Text>Missing</Text>
-              )}
+              ) : null}
 
-              {results.map(result => (
-                <Pressable
-                  key={result.id}
-                  onPress={async () => {
-                    await triggerHaptic(HapticFeedbackTypes.impactMedium);
-                    dispatch(
-                      setCurrentLocation({
-                        id: `${result.id}`,
-                        isDeviceLocation: true,
-                        lat: result.lat,
-                        lon: result.lon,
-                        name: result.name,
-                        country: result.country,
-                      }),
+              {results.length
+                ? results.map(result => {
+                    const isSaved = locations.savedLocations?.find(
+                      item => item.id === `${result.id}`,
                     );
-                    close();
-                  }}
-                  style={[
-                    styles.openInput,
-                    {
-                      backgroundColor:
-                        themeStyles.secondaryContainer.backgroundColor,
-                    },
-                  ]}>
-                  <LocationIcon
-                    width={18}
-                    height={18}
-                    fill={themeStyles.text.color}
-                  />
-                  <Text style={themeStyles.text}>
-                    {result.name}, {result.country}
-                  </Text>
-                </Pressable>
-              ))}
+                    return (
+                      <Pressable
+                        key={result.id}
+                        onPress={async () => {
+                          await triggerHaptic(HapticFeedbackTypes.impactMedium);
+                          dispatch(
+                            setCurrentLocation({
+                              id: `${result.id}`,
+                              isDeviceLocation: true,
+                              lat: result.lat,
+                              lon: result.lon,
+                              name: result.name,
+                              country: result.country,
+                            }),
+                          );
+                          close();
+                        }}
+                        style={[
+                          styles.openInput,
+                          {
+                            backgroundColor:
+                              themeStyles.secondaryContainer.backgroundColor,
+                          },
+                        ]}>
+                        <LocationIcon
+                          width={18}
+                          height={18}
+                          fill={themeStyles.text.color}
+                        />
+                        <Text style={themeStyles.text}>
+                          {result.name}, {result.country}
+                        </Text>
+
+                        <Pressable
+                          style={[
+                            styles.bookmarkButton,
+                            isSaved && styles.bookmarked,
+                          ]}
+                          onPress={() => {
+                            if (isSaved) {
+                              unbookmark(`${result.id}`);
+                            } else {
+                              bookmark(result);
+                            }
+                          }}>
+                          <BookmarkIcon
+                            width={18}
+                            height={18}
+                            fill={
+                              isSaved
+                                ? themeStyles.primaryText.color
+                                : themeStyles.text.color
+                            }
+                          />
+                        </Pressable>
+                      </Pressable>
+                    );
+                  })
+                : locations.savedLocations?.map(result => (
+                    <Pressable
+                      key={result.id}
+                      onPress={async () => {
+                        await triggerHaptic(HapticFeedbackTypes.impactMedium);
+                        dispatch(
+                          setCurrentLocation({
+                            id: `${result.id}`,
+                            isDeviceLocation: true,
+                            lat: result.lat,
+                            lon: result.lon,
+                            name: result.name,
+                            country: result.country,
+                          }),
+                        );
+                        close();
+                      }}
+                      style={[
+                        styles.openInput,
+                        {
+                          backgroundColor:
+                            themeStyles.secondaryContainer.backgroundColor,
+                        },
+                      ]}>
+                      <LocationIcon
+                        width={18}
+                        height={18}
+                        fill={themeStyles.text.color}
+                      />
+                      <Text style={themeStyles.text}>
+                        {result.name}, {result.country}
+                      </Text>
+
+                      <Pressable
+                        style={[styles.bookmarkButton, styles.bookmarked]}
+                        onPress={() => {
+                          unbookmark(`${result.id}`);
+                        }}>
+                        <BookmarkIcon
+                          width={18}
+                          height={18}
+                          fill={themeStyles.primaryText.color}
+                        />
+                      </Pressable>
+                    </Pressable>
+                  ))}
             </View>
           </Animated.View>
         </Pressable>
@@ -481,6 +579,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#ffffff',
+  },
+  bookmarkButton: {
+    marginLeft: 'auto',
+    opacity: 0.4,
+  },
+  bookmarked: {
+    opacity: 1,
   },
   closeTextContainer: {
     marginLeft: 'auto',
