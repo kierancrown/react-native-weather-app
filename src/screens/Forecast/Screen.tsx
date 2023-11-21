@@ -3,9 +3,9 @@ import {
   Dimensions,
   Platform,
   RefreshControl,
-  ScrollView,
   StatusBar,
   StyleSheet,
+  ScrollView,
   Text,
   View,
 } from 'react-native';
@@ -117,6 +117,7 @@ const ForecastScreen: FC<IForecastProps> = () => {
         scrollEventThrottle={16}
         keyboardShouldPersistTaps="always">
         <LocationFab />
+
         <SafeAreaView style={styles.container}>
           <View style={styles.iconContainer}>
             {forecast && (

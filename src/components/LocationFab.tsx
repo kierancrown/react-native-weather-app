@@ -52,9 +52,9 @@ const useLocationFabAnimation = (
   autoWidth: SharedValue<number>,
   openState: SharedValue<number>,
   keyboardHeight: SharedValue<number>,
-  themeStyles: any, // Replace 'any' with your theme styles type
 ) => {
   const insets = useSafeAreaInsets();
+  const themeStyles = useThemeStyles();
 
   const openContainerAnimatedStyles = useAnimatedStyle(() => {
     const openedHeight = clamp(
@@ -89,7 +89,7 @@ const useLocationFabAnimation = (
         ['transparent', themeStyles.container.backgroundColor],
       ),
       height: interpolate(openState.value, [0, 1], [HEIGHT, openedHeight]),
-      borderRadius: interpolate(openState.value, [0, 1], [999, 10]),
+      borderRadius: interpolate(openState.value, [0, 1], [HEIGHT / 2, 10]),
     };
   });
 
@@ -202,12 +202,7 @@ const LocationFab: FC = () => {
     openStateAnimatedTextStyles,
     openStateAnimatedHeaderStyles,
     openStateAnimatedHeaderIconStyles,
-  } = useLocationFabAnimation(
-    autoWidth,
-    openState,
-    keyboardHeight,
-    themeStyles,
-  );
+  } = useLocationFabAnimation(autoWidth, openState, keyboardHeight);
 
   const close = () => {
     setQuery('');
@@ -304,7 +299,8 @@ const LocationFab: FC = () => {
     <>
       {/* Backdrop */}
       <Animated.View
-        style={[StyleSheet.absoluteFillObject, backdropAnimatedStyles]}>
+        style={[StyleSheet.absoluteFillObject, backdropAnimatedStyles]}
+        pointerEvents={isOpen ? 'auto' : 'none'}>
         <Pressable style={StyleSheet.absoluteFillObject} onPress={close}>
           <BlurView
             style={StyleSheet.absoluteFillObject}

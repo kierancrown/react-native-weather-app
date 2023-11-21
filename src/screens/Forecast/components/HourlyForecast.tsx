@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {FlashList} from '@shopify/flash-list';
 import {RootState} from '../../../redux/store';
 import {useSelector} from 'react-redux';
 
@@ -12,6 +11,7 @@ import {day, night} from '../../../utils/weatherAssets';
 import LottieView from 'lottie-react-native';
 import {BlurView} from '@react-native-community/blur';
 import {Hour} from '../../../types/api';
+import {FlashList} from 'react-native-actions-sheet';
 
 interface IHourlyForecastProps {
   conditions: Hour[];
@@ -38,6 +38,7 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyboardShouldPersistTaps="always"
+          nestedScrollEnabled
           estimatedItemSize={66}
           data={conditions}
           renderItem={({item}) => {
@@ -49,10 +50,8 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
                 <LottieView
                   source={
                     item.is_day
-                      ? // @ts-ignore
-                        day[item.condition.code].icon
-                      : // @ts-ignore
-                        night[item.condition.code].icon
+                      ? day[item.condition.code].icon
+                      : night[item.condition.code].icon
                   }
                   autoPlay
                   loop
@@ -86,10 +85,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     height: 100,
-    width: '100%',
     minHeight: 2,
     minWidth: 2,
-    zIndex: 50,
   },
   item: {
     padding: 16,
