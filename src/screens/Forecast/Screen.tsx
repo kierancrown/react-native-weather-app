@@ -26,6 +26,7 @@ import HourlyForecast from './components/HourlyForecast';
 import LottieView from 'lottie-react-native';
 import {day, night} from '../../utils/weatherAssets';
 import {useTheme} from '../../hooks/useTheme';
+import WeekForecast from './components/WeekForecast';
 
 interface IForecastProps {}
 
@@ -168,9 +169,13 @@ const ForecastScreen: FC<IForecastProps> = () => {
 
           <View style={styles.hourlyContainer}>
             {forecast && (
-              <HourlyForecast
-                conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
-              />
+              <>
+                <HourlyForecast
+                  conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
+                />
+
+                <WeekForecast days={forecast?.forecast.forecastday ?? []} />
+              </>
             )}
           </View>
         </SafeAreaView>
@@ -257,6 +262,7 @@ const styles = StyleSheet.create({
   },
   hourlyContainer: {
     flex: 1,
+    gap: 16,
   },
 });
 export default ForecastScreen;

@@ -12,7 +12,7 @@ const useForecast = (query: string) => {
     const options = {
       method: 'GET',
       url: `${API_URL}/forecast.json`,
-      params: {q: query},
+      params: {q: query, days: 3},
       headers: {
         'X-RapidAPI-Key': API_KEY,
         'X-RapidAPI-Host': API_HOST,
@@ -21,6 +21,7 @@ const useForecast = (query: string) => {
 
     try {
       const response = await axios.request<ForecastResult>(options);
+      console.log(JSON.stringify(response.data.forecast.forecastday, null, 2));
       setResult(response.data);
     } catch (e) {
       // Would normally log to an error to Sentry or similar
