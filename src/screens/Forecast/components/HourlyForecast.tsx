@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import {RootState} from '../../../redux/store';
 import {useSelector} from 'react-redux';
@@ -7,8 +7,10 @@ import {useSelector} from 'react-redux';
 import dayjs from 'dayjs';
 import {roundNumber} from '../../../utils/math';
 
-import conditionsMap from '../../../assets/weather-conditions.json';
-import {day, night} from '../../../utils/weatherAssets';
+// import conditionsMap from '../../../assets/weather-conditions.json';
+import {day} from '../../../utils/weatherAssets';
+
+import LottieView from 'lottie-react-native';
 
 interface IHourlyForecastProps {
   conditions: Hour[];
@@ -27,29 +29,17 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
         estimatedItemSize={100}
         data={conditions}
         renderItem={({item}) => {
-          console.log(
-            conditionsMap.find(i => i.code === item.condition.code)?.icon,
-          );
           return (
             <View style={styles.item}>
               <Text style={[styles.text, styles.time]}>
                 {dayjs(item.time).format('HH')}
               </Text>
-              <Image
+              <LottieView
+                // @ts-ignore
+                source={day[item.condition.code]}
+                autoPlay
+                loop
                 style={styles.icon}
-                source={
-                  item.is_day
-                    ? // @ts-ignore
-                      day[
-                        conditionsMap.find(i => i.code === item.condition.code)
-                          ?.icon || 113
-                      ]
-                    : // @ts-ignore
-                      night[
-                        conditionsMap.find(i => i.code === item.condition.code)
-                          ?.icon || 113
-                      ]
-                }
               />
               <Text style={[styles.text, styles.temp]}>
                 {roundNumber(
