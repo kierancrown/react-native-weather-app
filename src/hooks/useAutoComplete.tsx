@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {API_KEY, API_URL, API_HOST} from '@env';
 import axios, {AxiosError} from 'axios';
+import {AutoCompleteResult} from '../types/api';
 
 const useAutoComplete = (query: string) => {
   const [results, setResults] = useState<AutoCompleteResult[]>([]);

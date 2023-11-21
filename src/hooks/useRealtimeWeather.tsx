@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {API_KEY, API_URL, API_HOST} from '@env';
 import axios, {AxiosError} from 'axios';
+import {RealtimeWeatherResult} from '../types/api';
 
 const useRealtimeWeather = (query: string) => {
   const [result, setResult] = useState<RealtimeWeatherResult>();

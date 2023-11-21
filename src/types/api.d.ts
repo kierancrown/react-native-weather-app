@@ -1,3 +1,5 @@
+import {day, night} from '../utils/weatherAssets';
+
 interface AutoCompleteResult {
   id: number;
   name: string;
@@ -53,7 +55,7 @@ interface Current {
 interface Condition {
   text: string;
   icon: string;
-  code: number;
+  code: keyof typeof day | keyof typeof night;
 }
 
 interface ForecastResult {

@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {API_KEY, API_URL, API_HOST} from '@env';
 import axios, {AxiosError} from 'axios';
+import {ForecastResult} from '../types/api';
 
 const useForecast = (query: string) => {
   const [result, setResult] = useState<ForecastResult>();

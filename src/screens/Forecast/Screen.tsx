@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   Dimensions,
   Platform,
@@ -23,12 +23,20 @@ import {RootState} from '../../redux/store';
 import {roundNumber} from '../../utils/math';
 import {useForecast} from '../../hooks/useForecast';
 import HourlyForecast from './components/HourlyForecast';
+import LottieView from 'lottie-react-native';
+import {day, night} from '../../utils/weatherAssets';
 
 interface IForecastProps {}
+
+const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 const ForecastScreen: FC<IForecastProps> = () => {
   const insets = useSafeAreaInsets();
   const scrollY = useSharedValue(0);
+  const [backgroundGradient, setBackgroundGradient] = useState([
+    '#2F80ED',
+    '#56CCF2',
+  ]);
 
   const currentLocation = useSelector(
     (state: RootState) => state.persistent.locations.currentLocation,
@@ -51,8 +59,18 @@ const ForecastScreen: FC<IForecastProps> = () => {
     };
   });
 
+  useEffect(() => {
+    if (forecast) {
+      setBackgroundGradient(
+        forecast.current.is_day
+          ? day[forecast.current.condition.code].background
+          : night[forecast.current.condition.code].background,
+      );
+    }
+  }, [forecast]);
+
   return (
-    <LinearGradient colors={['#2F80ED', '#56CCF2']} style={styles.flex}>
+    <LinearGradient colors={backgroundGradient} style={styles.flex}>
       {Platform.OS === 'ios' && (
         <Animated.View
           style={[
@@ -94,45 +112,61 @@ const ForecastScreen: FC<IForecastProps> = () => {
         scrollEventThrottle={16}>
         <LocationFab />
         <SafeAreaView style={styles.container}>
-          <View style={styles.currentConditionsContainer}>
-            <Text style={styles.tempText}>
-              {roundNumber(
-                (unitsPreferences.tempUnit === 'C'
-                  ? forecast?.current?.temp_c
-                  : forecast?.current?.temp_f) ?? 0,
-              )}
-              °
-            </Text>
-            <Text style={styles.conditionText}>
-              {forecast?.current?.condition?.text}
-            </Text>
-
-            <View style={styles.hiLoContainer}>
-              <Text style={styles.hiLoText}>
-                H:{' '}
-                {roundNumber(
-                  (unitsPreferences.tempUnit === 'C'
-                    ? forecast?.forecast?.forecastday[0]?.day?.maxtemp_c
-                    : forecast?.forecast?.forecastday[0]?.day?.maxtemp_f) ?? 0,
-                )}
-                °
-              </Text>
-              <Text style={styles.hiLoText}>
-                L:{' '}
-                {roundNumber(
-                  (unitsPreferences.tempUnit === 'C'
-                    ? forecast?.forecast?.forecastday[0]?.day?.mintemp_c
-                    : forecast?.forecast?.forecastday[0]?.day?.mintemp_f) ?? 0,
-                )}
-                °
-              </Text>
-            </View>
-
-            <View style={styles.hourlyContainer}>
-              <HourlyForecast
-                conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
+          <View style={styles.iconContainer}>
+            {forecast && (
+              <LottieView
+                source={
+                  forecast.current.is_day
+                    ? day[forecast.current.condition.code].icon
+                    : night[forecast.current.condition.code].icon
+                }
+                autoPlay
+                loop
+                style={styles.icon}
               />
+            )}
+            <View style={styles.currentConditionsContainer}>
+              <Text style={styles.tempText}>
+                {roundNumber(
+                  (unitsPreferences.tempUnit === 'C'
+                    ? forecast?.current?.temp_c
+                    : forecast?.current?.temp_f) ?? 0,
+                )}
+                °
+              </Text>
+              <Text style={styles.conditionText}>
+                {forecast?.current?.condition?.text}
+              </Text>
+
+              <View style={styles.hiLoContainer}>
+                <Text style={styles.hiLoText}>
+                  H:{' '}
+                  {roundNumber(
+                    (unitsPreferences.tempUnit === 'C'
+                      ? forecast?.forecast?.forecastday[0]?.day?.maxtemp_c
+                      : forecast?.forecast?.forecastday[0]?.day?.maxtemp_f) ??
+                      0,
+                  )}
+                  °
+                </Text>
+                <Text style={styles.hiLoText}>
+                  L:{' '}
+                  {roundNumber(
+                    (unitsPreferences.tempUnit === 'C'
+                      ? forecast?.forecast?.forecastday[0]?.day?.mintemp_c
+                      : forecast?.forecast?.forecastday[0]?.day?.mintemp_f) ??
+                      0,
+                  )}
+                  °
+                </Text>
+              </View>
             </View>
+          </View>
+
+          <View style={styles.hourlyContainer}>
+            <HourlyForecast
+              conditions={forecast?.forecast?.forecastday[0]?.hour ?? []}
+            />
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -145,8 +179,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
     padding: 16,
+  },
+  iconContainer: {
+    width: SCREEN_WIDTH - 32,
+    paddingVertical: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    width: SCREEN_WIDTH / 2,
+    height: SCREEN_WIDTH / 2,
   },
   statusBarBlur: {
     position: 'absolute',
@@ -208,8 +251,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   hourlyContainer: {
-    height: 100,
-    alignItems: 'center',
+    flex: 1,
   },
 });
 export default ForecastScreen;

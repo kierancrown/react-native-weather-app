@@ -8,9 +8,11 @@ import dayjs from 'dayjs';
 import {roundNumber} from '../../../utils/math';
 
 // import conditionsMap from '../../../assets/weather-conditions.json';
-import {day} from '../../../utils/weatherAssets';
+import {day, night} from '../../../utils/weatherAssets';
 
 import LottieView from 'lottie-react-native';
+import {BlurView} from '@react-native-community/blur';
+import {Hour} from '../../../types/api';
 
 interface IHourlyForecastProps {
   conditions: Hour[];
@@ -23,37 +25,53 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
 
   return (
     <View style={styles.container}>
-      <FlashList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        estimatedItemSize={100}
-        data={conditions}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.item}>
-              <Text style={[styles.text, styles.time]}>
-                {dayjs(item.time).format('HH')}
-              </Text>
-              <LottieView
-                // @ts-ignore
-                source={day[item.condition.code]}
-                autoPlay
-                loop
-                style={styles.icon}
-              />
-              <Text style={[styles.text, styles.temp]}>
-                {roundNumber(
-                  (unitsPreferences.tempUnit === 'C'
-                    ? item.temp_c
-                    : item.temp_f) ?? 0,
-                )}
-                °
-              </Text>
-            </View>
-          );
-        }}
-        keyExtractor={item => item.time}
+      <BlurView
+        style={StyleSheet.absoluteFillObject}
+        blurType="regular"
+        blurAmount={10}
+        reducedTransparencyFallbackColor="white"
       />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Hourly Forecast</Text>
+      </View>
+      <View style={styles.listContainer}>
+        <FlashList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          estimatedItemSize={100}
+          data={conditions}
+          renderItem={({item}) => {
+            return (
+              <View style={styles.item}>
+                <Text style={[styles.text, styles.time]}>
+                  {dayjs(item.time).format('HH')}
+                </Text>
+                <LottieView
+                  source={
+                    item.is_day
+                      ? // @ts-ignore
+                        day[item.condition.code].icon
+                      : // @ts-ignore
+                        night[item.condition.code].icon
+                  }
+                  autoPlay
+                  loop
+                  style={styles.icon}
+                />
+                <Text style={[styles.text, styles.temp]}>
+                  {roundNumber(
+                    (unitsPreferences.tempUnit === 'C'
+                      ? item.temp_c
+                      : item.temp_f) ?? 0,
+                  )}
+                  °
+                </Text>
+              </View>
+            );
+          }}
+          keyExtractor={item => item.time}
+        />
+      </View>
     </View>
   );
 };
@@ -63,12 +81,17 @@ export default HourlyForecast;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    borderRadius: 8,
+    width: '100%',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  listContainer: {
+    width: '100%',
+    height: 100,
   },
   item: {
     padding: 16,
-    width: 100,
+    width: 66,
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,5 +112,15 @@ const styles = StyleSheet.create({
     fontFamily: 'RNS Sanz',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  header: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  headerTitle: {
+    fontFamily: 'RNS Sanz',
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
 });
