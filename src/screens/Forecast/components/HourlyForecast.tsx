@@ -1,4 +1,4 @@
-import React, {LegacyRef, useEffect, useRef} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {RootState} from '../../../redux/store';
 import {useSelector} from 'react-redux';
@@ -20,7 +20,6 @@ interface IHourlyForecastProps {
 const CURRENT_HOUR = dayjs().hour();
 
 const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
-  const scrollRef = useRef<any>(null);
   const unitsPreferences = useSelector(
     (state: RootState) => state.persistent.units,
   );
@@ -45,7 +44,6 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
           estimatedItemSize={66}
           initialScrollIndex={CURRENT_HOUR}
           data={conditions}
-          ref={scrollRef}
           renderItem={({item}) => {
             return (
               <View style={styles.item}>
