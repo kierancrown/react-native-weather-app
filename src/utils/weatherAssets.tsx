@@ -209,7 +209,7 @@ const night = {
   },
   1009: {
     icon: require(`${assetsDir}/lottie/overcast-night.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1030: {
     icon: require(`${assetsDir}/lottie/mist.json`),
@@ -217,11 +217,11 @@ const night = {
   },
   1063: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1066: {
     icon: require(`${assetsDir}/lottie/overcast-night-snow.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1069: {
     icon: require(`${assetsDir}/lottie/sleet.json`),
@@ -241,7 +241,7 @@ const night = {
   },
   1117: {
     icon: require(`${assetsDir}/lottie/overcast-night-snow.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1135: {
     icon: require(`${assetsDir}/lottie/fog.json`),
@@ -253,11 +253,11 @@ const night = {
   },
   1150: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1153: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1168: {
     icon: require(`${assetsDir}/lottie/drizzle.json`),
@@ -269,27 +269,27 @@ const night = {
   },
   1180: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1183: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1186: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1189: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1192: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1195: {
     icon: require(`${assetsDir}/lottie/overcast-night-drizzle.json`),
-    background: ['#7F8C8D', '#BDC3C7'],
+    background: ['#141E30', '#BDC3C7'],
   },
   1198: {
     icon: require(`${assetsDir}/lottie/drizzle.json`),
