@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import dayjs from 'dayjs';
 import {roundNumber} from '../../../utils/math';
 
-import {day, night} from '../../../utils/weatherAssets';
+import {day, night} from '../../../constants/weatherAssets';
 
 import LottieView from 'lottie-react-native';
 import {BlurView} from '@react-native-community/blur';

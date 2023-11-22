@@ -1,4 +1,4 @@
-import {day, night} from '../utils/weatherAssets';
+import {day, night} from '../constants/weatherAssets';
 
 interface AutoCompleteResult {
   id: number;

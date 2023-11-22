@@ -8,7 +8,7 @@ import {roundNumber} from '../../../utils/math';
 
 import rnTextSize from 'react-native-text-size';
 
-import {day} from '../../../utils/weatherAssets';
+import {day} from '../../../constants/weatherAssets';
 
 import LottieView from 'lottie-react-native';
 import {BlurView} from '@react-native-community/blur';

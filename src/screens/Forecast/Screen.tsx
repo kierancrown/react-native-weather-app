@@ -24,7 +24,7 @@ import {roundNumber} from '../../utils/math';
 import {useForecast} from '../../hooks/useForecast';
 import HourlyForecast from './components/HourlyForecast';
 import LottieView from 'lottie-react-native';
-import {day, night} from '../../utils/weatherAssets';
+import {day, night} from '../../constants/weatherAssets';
 import {useTheme} from '../../hooks/useTheme';
 import WeekForecast from './components/WeekForecast';
 
