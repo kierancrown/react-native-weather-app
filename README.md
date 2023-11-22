@@ -1,79 +1,95 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# RNWeatherApp
 
-# Getting Started
+## Project Overview
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+This example weather app, fetches data from [WeatherApi](https://www.weatherapi.com/). It can display weather data for your current location, or you can search for other locations to fetch weather for. The app has the following basic features.
 
-## Step 1: Start the Metro Server
+* Display weather information for a location
+* Search for locations
+* Bookmark locations
+* Onboarding with setup for units
+* Basic theme system
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Technologies Chosen
 
-To start Metro, run the following command from the _root_ of your React Native project:
+The project utilizes the following key technologies:
+
+   **React Native**: A JavaScript framework for building cross-platform mobile applications.
+
+[Explain briefly why these technologies were chosen and how they contribute to the project.]
+
+## Getting Started
+
+Follow these instructions to set up and run the project on your local machine.
+
+### Prerequisites
+
+   * [List any prerequisites or dependencies that need to be installed before running the project.]
+
+### Installation
+
+   1. Clone the repository to your local machine:
+
+   ```bash
+   git clone git@github.com:kierancrown/react-native-weather-app.git
+   ```
+
+2. Navigate to the project directory:
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+cd react-native-weather-app
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+Install dependencies:
 
 ```bash
-# using npm
-npm run android
+yarn
+npx pod-install
+```
 
-# OR using Yarn
+### Running the Project
+
+To run the project on an emulator or a physical device, use the following commands:
+
+```bash
+# For iOS
+yarn ios
+
+# For Android
 yarn android
 ```
 
-### For iOS
+[Include any additional steps or configuration needed for the project to run successfully.]
+Project Structure
 
-```bash
-# using npm
-npm run ios
+Explain the structure of the project directory and highlight the key folders and files.
 
-# OR using Yarn
-yarn ios
-```
+lua
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+/
+|-- android/
+|-- ios/
+|-- src/
+|-- components/
+|-- screens/
+|-- navigation/
+|-- utils/
+|-- App.js
+|-- package.json
+|-- [Other configuration files]
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+[Provide a brief overview of the project structure and how different parts are organized.]
+Additional Information
+[Any other sections you want to add, such as Testing, Deployment, etc.]
+What I Would Have Done with Extra Time
 
-## Step 3: Modifying your App
+If additional time were available, the following improvements and enhancements could be implemented:
 
-Now that you have successfully run the app, let's modify it.
+    [Feature or enhancement #1]
+    [Feature or enhancement #2]
+    [Any other improvements]
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+Feel free to explore and contribute to the project to make it even better!
+Acknowledgments
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Mention any third-party libraries, resources, or individuals who have contributed to the project.
