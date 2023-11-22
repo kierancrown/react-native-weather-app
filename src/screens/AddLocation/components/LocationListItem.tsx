@@ -3,6 +3,7 @@ import {Pressable, StyleSheet, Text} from 'react-native';
 import {useThemeStyles} from '../../../hooks/useTheme';
 
 import LocationDotIcon from '../../../assets/location-dot.svg';
+import {AutoCompleteResult} from '../../../types/api';
 
 interface ILocationListItemProps {
   item: AutoCompleteResult;

@@ -9,7 +9,7 @@ import LocationListItem from './components/LocationListItem';
 
 const AddLocationScreen: FC = () => {
   const [query, setQuery] = useState<string>('');
-  const results = useAutoComplete(query);
+  const {results} = useAutoComplete(query);
 
   const ListHeader = <SearchInput query={query} setQuery={setQuery} />;
   const listEmpty = <EmptyView />;
