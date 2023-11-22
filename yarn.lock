@@ -6033,11 +6033,6 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-native-actions-sheet@^0.9.0-alpha.24:
-  version "0.9.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.9.0-alpha.24.tgz#4353f04c708eb476ce94f72d3dee0dd6b93b44cb"
-  integrity sha512-NF0oO0vf3DrFsqI+pbQ+HTG2q+VEotkVwhtFr8aLiUFJT876icVOSurCaeqD1t4zHtH2U5qa8vKQxbA/j5Mu8w==
-
 react-native-device-info@^10.11.0:
   version "10.11.0"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-10.11.0.tgz#2c9f378f1c3c5eb9aafa803d015b84325991a9aa"
