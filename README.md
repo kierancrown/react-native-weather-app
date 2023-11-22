@@ -16,7 +16,13 @@ The project utilizes the following key technologies:
 
    **React Native**: A JavaScript framework for building cross-platform mobile applications.
 
-[Explain briefly why these technologies were chosen and how they contribute to the project.]
+   **Reanimated**: A library for performance animations
+
+   **React Navigation**: A navigation library
+
+   **Redux**: A global state managment library. I used it alongside RTK
+
+   **Typescript**: Makes life better 😁
 
 ## Getting Started
 
@@ -24,7 +30,7 @@ Follow these instructions to set up and run the project on your local machine.
 
 ### Prerequisites
 
-   * [List any prerequisites or dependencies that need to be installed before running the project.]
+   * Yarn package manager
 
 ### Installation
 
@@ -59,37 +65,19 @@ yarn ios
 yarn android
 ```
 
-[Include any additional steps or configuration needed for the project to run successfully.]
-Project Structure
+### Create an env file
 
-Explain the structure of the project directory and highlight the key folders and files.
+Create a env file in the project root named `.env.local` and add the weather API key to it.
 
-lua
+```
+API_URL=https://weatherapi-com.p.rapidapi.com
+API_HOST=weatherapi-com.p.rapidapi.com
+API_KEY=REPLACE_WITH_API_KEY
+```
 
-/
-|-- android/
-|-- ios/
-|-- src/
-|-- components/
-|-- screens/
-|-- navigation/
-|-- utils/
-|-- App.js
-|-- package.json
-|-- [Other configuration files]
+## What I Would Have Done with Extra Time
 
-[Provide a brief overview of the project structure and how different parts are organized.]
-Additional Information
-[Any other sections you want to add, such as Testing, Deployment, etc.]
-What I Would Have Done with Extra Time
-
-If additional time were available, the following improvements and enhancements could be implemented:
-
-    [Feature or enhancement #1]
-    [Feature or enhancement #2]
-    [Any other improvements]
+Given extra time I would have added unit and E2E tests. Unfortunately given the time constraint and other work commitments I didn't have time for either. I'd also have made some components such as the list items in the Location FAB reusable components and overall refactored the code base and clean things up. I'd also liked to have added a settings screen and display additional forecast data.
 
 Feel free to explore and contribute to the project to make it even better!
-Acknowledgments
-
-Mention any third-party libraries, resources, or individuals who have contributed to the project.
+Acknowledgments.
