@@ -13,6 +13,8 @@ import {BlurView} from '@react-native-community/blur';
 import {Hour} from '../../../types/api';
 import {FlashList} from '@shopify/flash-list';
 
+import ClockIcon from '../../../assets/clock.svg';
+
 interface IHourlyForecastProps {
   conditions: Hour[];
 }
@@ -33,6 +35,7 @@ const HourlyForecast = ({conditions}: IHourlyForecastProps) => {
         reducedTransparencyFallbackColor="white"
       />
       <View style={styles.header}>
+        <ClockIcon width={14} height={14} fill="#ffffff" opacity={0.8} />
         <Text style={styles.headerTitle}>Hourly Forecast</Text>
       </View>
       <View style={styles.listContainer}>
@@ -116,6 +119,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },

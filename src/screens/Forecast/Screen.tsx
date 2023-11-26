@@ -27,6 +27,7 @@ import LottieView from 'lottie-react-native';
 import {day, night} from '../../constants/weatherAssets';
 import {useTheme} from '../../hooks/useTheme';
 import WeekForecast from './components/WeekForecast';
+import WindForecast from './components/WindForecast';
 
 interface IForecastProps {}
 
@@ -178,6 +179,8 @@ const ForecastScreen: FC<IForecastProps> = () => {
                 />
 
                 <WeekForecast days={forecast?.forecast.forecastday ?? []} />
+
+                <WindForecast conditions={forecast?.current} />
               </>
             )}
           </View>
