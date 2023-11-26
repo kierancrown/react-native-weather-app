@@ -3,8 +3,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import AddLocationScreen from '../screens/addLocation';
-import ForecastScreen from '../screens/forecast/Screen';
+import AddLocationScreen from '../screens/AddLocation';
+import ForecastScreen from '../screens/Forecast/Screen';
 
 export type WeatherStackNavigationProp =
   NativeStackNavigationProp<WeatherStackParamList>;

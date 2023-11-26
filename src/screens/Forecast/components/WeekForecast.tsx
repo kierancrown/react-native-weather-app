@@ -14,6 +14,8 @@ import LottieView from 'lottie-react-native';
 import {BlurView} from '@react-native-community/blur';
 import {Forecastday} from '../../../types/api';
 
+import WeeklyForecastIcon from '../../../assets/calendar-days.svg';
+
 interface IWeekForecastProps {
   days: Forecastday[];
 }
@@ -50,6 +52,12 @@ const WeekForecast = ({days}: IWeekForecastProps) => {
         reducedTransparencyFallbackColor="white"
       />
       <View style={styles.header}>
+        <WeeklyForecastIcon
+          width={14}
+          height={14}
+          fill="#ffffff"
+          opacity={0.8}
+        />
         <Text style={styles.headerTitle}>{days.length} Day Forecast</Text>
       </View>
       <View style={styles.listContainer}>
@@ -128,6 +136,9 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },

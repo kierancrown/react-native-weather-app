@@ -8,7 +8,6 @@ import {persistor, store} from './redux/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ThemeProviderContext from './components/ThemeProvider';
 
-import './components/sheets';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const gestureStyle = {flex: 1};
